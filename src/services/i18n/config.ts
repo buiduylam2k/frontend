@@ -1,4 +1,5 @@
 export const fallbackLanguage = "en" as const;
+export const mainLanguge = "vi" as const;
 export const languages = [fallbackLanguage] as const;
 export const defaultNamespace = "common";
 export const cookieName = "i18next";

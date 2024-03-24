@@ -1,11 +1,7 @@
+import "../globals.css";
+
 import ResponsiveAppBar from "@/components/app-bar";
 import AuthProvider from "@/services/auth/auth-provider";
-import "../globals.css";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
-import CssBaseline from "@mui/material/CssBaseline";
 import { dir } from "i18next";
 import "@/services/i18n/config";
 import { languages } from "@/services/i18n/config";
@@ -21,7 +17,9 @@ import ReactQueryDevtools from "@/services/react-query/react-query-devtools";
 import GoogleAuthProvider from "@/services/social-auth/google/google-auth-provider";
 import FacebookAuthProvider from "@/services/social-auth/facebook/facebook-auth-provider";
 import ConfirmDialogProvider from "@/components/confirm-dialog/confirm-dialog-provider";
-import InitColorSchemeScript from "@/components/theme/init-color-scheme-script";
+import { Inter as FontSans } from "next/font/google";
+import { cn } from "@/lib/utils";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 type Props = {
   params: { language: string };
@@ -35,6 +33,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+
 export function generateStaticParams() {
   return languages.map((language) => ({ language }));
 }
@@ -47,29 +50,36 @@ export default function RootLayout({
   params: { language: string };
 }) {
   return (
-    <html lang={language} dir={dir(language)}>
+    <html lang={language} dir={dir(language)} suppressHydrationWarning>
       <body>
-        <InitColorSchemeScript />
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
           <ThemeProvider>
-            <CssBaseline />
-            <SnackbarProvider maxSnack={3}>
-              <StoreLanguageProvider>
-                <ConfirmDialogProvider>
-                  <AuthProvider>
-                    <GoogleAuthProvider>
-                      <FacebookAuthProvider>
-                        <LeavePageProvider>
-                          <ResponsiveAppBar />
-                          {children}
-                        </LeavePageProvider>
-                      </FacebookAuthProvider>
-                    </GoogleAuthProvider>
-                  </AuthProvider>
-                </ConfirmDialogProvider>
-              </StoreLanguageProvider>
-            </SnackbarProvider>
+            <body
+              className={cn(
+                "min-h-screen bg-background font-sans antialiased",
+                fontSans.variable
+              )}
+            >
+              <SnackbarProvider maxSnack={3}>
+                <TooltipProvider>
+                  <StoreLanguageProvider>
+                    <ConfirmDialogProvider>
+                      <AuthProvider>
+                        <GoogleAuthProvider>
+                          <FacebookAuthProvider>
+                            <LeavePageProvider>
+                              <ResponsiveAppBar />
+                              <div className="pt-14">{children}</div>
+                            </LeavePageProvider>
+                          </FacebookAuthProvider>
+                        </GoogleAuthProvider>
+                      </AuthProvider>
+                    </ConfirmDialogProvider>
+                  </StoreLanguageProvider>
+                </TooltipProvider>
+              </SnackbarProvider>
+            </body>
           </ThemeProvider>
         </QueryClientProvider>
       </body>
