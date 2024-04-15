@@ -10,6 +10,7 @@
     "array-callback-return": "error",
     "eqeqeq": "error",
     "no-alert": "error",
+    "@typescript-eslint/ban-ts-comment": "off",
     "no-return-assign": "error",
     "no-restricted-syntax": [
       "error",

@@ -1,16 +1,18 @@
-"use client";
-import useAuth from "@/services/auth/use-auth";
-import { useTranslation } from "@/services/i18n/client";
-import Link from "@/components/link";
-import { RoleEnum } from "@/services/api/types/role";
+"use client"
+import useAuth from "@/services/auth/use-auth"
+import { useTranslation } from "@/services/i18n/client"
+import Link from "@/components/link"
+import { RoleEnum } from "@/services/api/types/role"
 
-import MenuUser from "./menu-user";
-import AdminNavigation from "./admin-navigation";
-import ClientNavigation from "./client-navigation";
+import MenuUser from "./menu-user"
+import AdminNavigation from "./admin-navigation"
+import ClientNavigation from "./client-navigation"
+import useAuthActions from "@/services/auth/use-auth-actions"
 
 function ResponsiveAppBar() {
-  const { t } = useTranslation("common");
-  const { user } = useAuth();
+  const { t } = useTranslation("common")
+  const { user } = useAuth()
+  const { logOut } = useAuthActions()
 
   return (
     <div className="bg-primary fixed z-50 w-full top-0">
@@ -29,9 +31,9 @@ function ResponsiveAppBar() {
           <ClientNavigation />
         )}
 
-        <MenuUser />
+        <MenuUser logOut={logOut} user={user} />
       </div>
     </div>
-  );
+  )
 }
-export default ResponsiveAppBar;
+export default ResponsiveAppBar

@@ -1,5 +1,5 @@
-import { LogOutIcon, MenuIcon } from "lucide-react";
-import { Button } from "../ui/button";
+import { LogOutIcon, MenuIcon } from "lucide-react"
+import { Button } from "../ui/button"
 
 import {
   Sheet,
@@ -7,18 +7,22 @@ import {
   SheetContent,
   SheetFooter,
   SheetTrigger,
-} from "../ui/sheet";
-import { useTranslation } from "@/services/i18n/client";
-import Link from "../link";
-import useAuth from "@/services/auth/use-auth";
+} from "../ui/sheet"
+import { useTranslation } from "@/services/i18n/client"
+import Link from "../link"
 
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import useAuthActions from "@/services/auth/use-auth-actions";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { User } from "@/services/api/types/user"
 
-export default function MobileMenu() {
-  const { t } = useTranslation("common");
-  const { user } = useAuth();
-  const { logOut } = useAuthActions();
+interface IMobileMenu {
+  user: User | null
+  logOut: () => Promise<void>
+}
+
+export default function MobileMenu(props: IMobileMenu) {
+  const { logOut, user } = props
+
+  const { t } = useTranslation("common")
 
   return (
     <div className="flex md:hidden">
@@ -38,13 +42,10 @@ export default function MobileMenu() {
               <Link href={"/"}>{t("common:navigation.home")}</Link>
             </Button>
             <Button variant={"ghost"} asChild className="text-base">
-              <Link href={"/blog"}>{t("common:navigation.blog")}</Link>
+              <Link href={"/blog"}>{t("common:navigation.blogs")}</Link>
             </Button>
             <Button variant={"ghost"} asChild className="text-base">
-              <Link href={"/blog"}>{t("common:navigation.blog")}</Link>
-            </Button>
-            <Button variant={"ghost"} asChild className="text-base">
-              <Link href={"/post"}>{t("common:navigation.post")}</Link>
+              <Link href={"/post"}>{t("common:navigation.posts")}</Link>
             </Button>
             <Button variant={"ghost"} asChild className="text-base">
               <Link href={"/contact"}>{t("common:navigation.contact")}</Link>
@@ -91,5 +92,5 @@ export default function MobileMenu() {
         </SheetContent>
       </Sheet>
     </div>
-  );
+  )
 }

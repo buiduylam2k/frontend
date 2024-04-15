@@ -5,21 +5,24 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { Button } from "../ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import Link from "../link";
-import useAuth from "@/services/auth/use-auth";
-import { useTranslation } from "@/services/i18n/client";
-import useAuthActions from "@/services/auth/use-auth-actions";
-import MobileMenu from "./mobile-menu";
+} from "../ui/dropdown-menu"
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
+import { Button } from "../ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import Link from "../link"
+import { useTranslation } from "@/services/i18n/client"
+import MobileMenu from "./mobile-menu"
+import { User } from "@/services/api/types/user"
 
-export default function MenuUser() {
-  const { user } = useAuth();
-  const { logOut } = useAuthActions();
+interface IMenuUser {
+  user: User | null
+  logOut: () => Promise<void>
+}
 
-  const { t } = useTranslation("common");
+export default function MenuUser(props: IMenuUser) {
+  const { logOut, user } = props
+
+  const { t } = useTranslation("common")
 
   return (
     <div className="flex items-center gap-4">
@@ -74,7 +77,7 @@ export default function MenuUser() {
           </Button>
         </div>
       )}
-      <MobileMenu />
+      <MobileMenu logOut={logOut} user={user} />
     </div>
-  );
+  )
 }
