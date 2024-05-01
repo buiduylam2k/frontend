@@ -2,29 +2,41 @@
 import { CKEditor } from "@ckeditor/ckeditor5-react"
 import { useRef } from "react"
 
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor"
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
 import { UPLOAD_URL } from "@/services/api/config"
 import useAuthTokens from "@/services/auth/use-auth-tokens"
 
+import "@/app/ckeditor.css"
+
 const editorConfiguration = {
   toolbar: [
+    "undo",
+    "redo",
+    "|",
     "heading",
+    "|",
+    "fontfamily",
+    "FontSize",
+    "fontColor",
+    "fontBackgroundColor",
     "|",
     "bold",
     "italic",
+    "strikethrough",
+    "subscript",
+    "superscript",
+    "code",
+    "|",
     "link",
+    "uploadImage",
+    "blockQuote",
+    "codeBlock",
+    "|",
     "bulletedList",
     "numberedList",
-    "|",
+    "todoList",
     "outdent",
     "indent",
-    "|",
-    "imageUpload",
-    "blockQuote",
-    "insertTable",
-    "mediaEmbed",
-    "undo",
-    "redo",
   ],
 }
 
@@ -33,7 +45,7 @@ interface IEditor {
   onChange?: (value: string) => void
 }
 
-export default function CkEditor(props: IEditor) {
+export default function MyCkEditor(props: IEditor) {
   const { initialValue, onChange } = props
 
   const { tokensInfoRef } = useAuthTokens()

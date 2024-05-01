@@ -14,10 +14,10 @@ export default function ClientNavigation() {
         <Link href={"/blogs"}>{t("common:navigation.blogs")}</Link>
       </Button>
       <Button variant={"ghost"} asChild className="text-base">
-        <Link href={"/posts"}>{t("common:navigation.posts")}</Link>
+        <Link href={"/bai-viet"}>{t("common:navigation.posts")}</Link>
       </Button>
       <Button variant={"ghost"} asChild className="text-base">
-        <Link href={"/contact"}>{t("common:navigation.contact")}</Link>
+        <Link href={"/lien-he"}>{t("common:navigation.contact")}</Link>
       </Button>
     </div>
   )

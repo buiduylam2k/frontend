@@ -4,7 +4,7 @@ import { SortEnum } from "@/services/api/types/sort-type"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 import PostCard from "../post-card"
 import { useGetPostsService } from "@/services/api/services/post"
-import { postsQueryKeys } from "@/app/[language]/posts/queries/posts-queries"
+import { postsQueryKeys } from "@/app/[language]/bai-viet/queries/posts-queries"
 
 export default function HomePosts() {
   const fetchGetPosts = useGetPostsService()

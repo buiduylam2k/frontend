@@ -1,4 +1,5 @@
 import { Tag } from "./Tag"
+import { Comment } from "./comment"
 import { User } from "./user"
 
 export type Post = {
@@ -11,7 +12,7 @@ export type Post = {
 
   author: User
   tags: Tag[]
-  comments: string[]
+  comments: Comment[]
 
   createdAt: Date
   updatedAt: Date

@@ -48,7 +48,7 @@ export default function MobileMenu(props: IMobileMenu) {
               <Link href={"/post"}>{t("common:navigation.posts")}</Link>
             </Button>
             <Button variant={"ghost"} asChild className="text-base">
-              <Link href={"/contact"}>{t("common:navigation.contact")}</Link>
+              <Link href={"/lien-he"}>{t("common:navigation.contact")}</Link>
             </Button>
           </div>
 
@@ -57,7 +57,7 @@ export default function MobileMenu(props: IMobileMenu) {
               <div className="flex flex-1 items-center justify-between">
                 <SheetClose asChild>
                   <Button variant={"outline"} className="gap-2 h-12" asChild>
-                    <Link href="/profile">
+                    <Link href="/trang-ca-nhan">
                       <Avatar>
                         <AvatarImage
                           src={user.photo?.path}
@@ -80,11 +80,11 @@ export default function MobileMenu(props: IMobileMenu) {
             ) : (
               <div className="flex-1 flex gap-4">
                 <Button asChild className="w-full">
-                  <Link href="/sign-in">{t("common:navigation.signIn")}</Link>
+                  <Link href="/dang-nhap">{t("common:navigation.signIn")}</Link>
                 </Button>
 
                 <Button className="w-full" variant="secondary">
-                  <Link href="/sign-up">{t("common:navigation.signUp")}</Link>
+                  <Link href="/dang-ky">{t("common:navigation.signUp")}</Link>
                 </Button>
               </div>
             )}

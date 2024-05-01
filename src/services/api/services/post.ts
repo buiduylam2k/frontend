@@ -44,7 +44,7 @@ export function useGetPostsService() {
 }
 
 export type PostRequest = {
-  id: Post["id"]
+  slug: string
 }
 
 export type PostResponse = Post
@@ -54,7 +54,7 @@ export function useGetPostService() {
 
   return useCallback(
     (data: PostRequest, requestConfig?: RequestConfigType) => {
-      return fetch(`${POSTS_URL}/${data.id}`, {
+      return fetch(`${POSTS_URL}/${data.slug}`, {
         method: "GET",
         ...requestConfig,
       }).then(wrapperFetchJsonResponse<PostResponse>)
@@ -119,6 +119,47 @@ export function useDeletePostService() {
         method: "DELETE",
         ...requestConfig,
       }).then(wrapperFetchJsonResponse<PostDeleteResponse>)
+    },
+    [fetch]
+  )
+}
+
+export type AddCommentPostRequest = {
+  content: string
+  id: string | number
+}
+
+export function useAddCommentPostService() {
+  const fetch = useFetch()
+
+  return useCallback(
+    (data: AddCommentPostRequest, requestConfig?: RequestConfigType) => {
+      const { id, content } = data
+      return fetch(`${POSTS_URL}/${id}/add-comment`, {
+        method: "POST",
+        body: JSON.stringify({ content }),
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<undefined>)
+    },
+    [fetch]
+  )
+}
+
+export type DeleteCommentPostRequest = {
+  cmtId: string | number
+  id: string | number
+}
+
+export function useDeleteCommentPostService() {
+  const fetch = useFetch()
+
+  return useCallback(
+    (data: DeleteCommentPostRequest, requestConfig?: RequestConfigType) => {
+      const { cmtId, id } = data
+      return fetch(`${POSTS_URL}/${id}/delete-comment/${cmtId}`, {
+        method: "DELETE",
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<undefined>)
     },
     [fetch]
   )

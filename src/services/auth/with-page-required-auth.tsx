@@ -1,33 +1,33 @@
-"use client";
-import { useRouter } from "next/navigation";
-import useAuth from "./use-auth";
-import React, { FunctionComponent, useEffect } from "react";
-import useLanguage from "../i18n/use-language";
-import { RoleEnum } from "../api/types/role";
+"use client"
+import { useRouter } from "next/navigation"
+import useAuth from "./use-auth"
+import React, { FunctionComponent, useEffect } from "react"
+import useLanguage from "../i18n/use-language"
+import { RoleEnum } from "../api/types/role"
 
 type PropsType = {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
+  params: { slug: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
 
 type OptionsType = {
-  roles: RoleEnum[];
-};
+  roles: RoleEnum[]
+}
 
 const roles = Object.values(RoleEnum).filter(
   (value) => !Number.isNaN(Number(value))
-) as RoleEnum[];
+) as RoleEnum[]
 
 function withPageRequiredAuth(
   Component: FunctionComponent<PropsType>,
   options?: OptionsType
 ) {
-  const optionRoles = options?.roles || roles;
+  const optionRoles = options?.roles || roles
 
   return function WithPageRequiredAuth(props: PropsType) {
-    const { user, isLoaded } = useAuth();
-    const router = useRouter();
-    const language = useLanguage();
+    const { user, isLoaded } = useAuth()
+    const router = useRouter()
+    const language = useLanguage()
 
     useEffect(() => {
       const check = () => {
@@ -35,32 +35,32 @@ function withPageRequiredAuth(
           (user && user?.role?.id && optionRoles.includes(user?.role.id)) ||
           !isLoaded
         )
-          return;
+          return
 
-        const currentLocation = window.location.toString();
+        const currentLocation = window.location.toString()
         const returnToPath =
           currentLocation.replace(new URL(currentLocation).origin, "") ||
-          `/${language}`;
+          `/${language}`
         const params = new URLSearchParams({
           returnTo: returnToPath,
-        });
+        })
 
-        let redirectTo = `/${language}/sign-in?${params.toString()}`;
+        let redirectTo = `/${language}/dang-nhap?${params.toString()}`
 
         if (user) {
-          redirectTo = `/${language}`;
+          redirectTo = `/${language}`
         }
 
-        router.replace(redirectTo);
-      };
+        router.replace(redirectTo)
+      }
 
-      check();
-    }, [user, isLoaded, router, language]);
+      check()
+    }, [user, isLoaded, router, language])
 
     return user && user?.role?.id && optionRoles.includes(user?.role.id) ? (
       <Component {...props} />
-    ) : null;
-  };
+    ) : null
+  }
 }
 
-export default withPageRequiredAuth;
+export default withPageRequiredAuth

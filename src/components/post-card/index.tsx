@@ -6,16 +6,17 @@ import Link from "../link"
 import { Post } from "@/services/api/types/post"
 import formatDate from "@/services/helpers/format-date"
 import UserHoverCard from "../user-hover-card"
+import formatDateRelativeToNow from "@/services/helpers/format-date-relative-to-now"
 
 interface IPostCard extends Post {}
 
 export default function PostCard(props: IPostCard) {
-  const { content, createdAt, author, id } = props
+  const { content, createdAt, author, id, slug } = props
 
   const fullName = `${author?.firstName || ""} ${author?.lastName || ""}`
 
   return (
-    <Link key={id} href={`/posts/${id}`}>
+    <Link key={id} href={`/bai-viet/${slug}`}>
       <div className="cursor-pointer">
         <div className="flex items-start space-x-3">
           <UserHoverCard user={author}>
@@ -31,7 +32,7 @@ export default function PostCard(props: IPostCard) {
             </UserHoverCard>
 
             <div className="font-semibold text-purple-600">
-              {formatDate(createdAt)}
+              {formatDateRelativeToNow(createdAt)}
             </div>
           </div>
         </div>

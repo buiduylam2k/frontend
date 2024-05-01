@@ -1,5 +1,4 @@
 import "../../app/globals.css"
-import "../../app/ckeditor.css"
 
 import ResponsiveAppBar from "@/components/app-bar"
 import AuthProvider from "@/services/auth/auth-provider"
@@ -7,30 +6,21 @@ import { dir } from "i18next"
 import "@/services/i18n/config"
 import { languages } from "@/services/i18n/config"
 import type { Metadata } from "next"
-import SnackbarProvider from "@/components/snackbar-provider"
-import { getServerTranslation } from "@/services/i18n"
 import StoreLanguageProvider from "@/services/i18n/store-language-provider"
-import ThemeProvider from "@/components/theme/theme-provider"
 import LeavePageProvider from "@/services/leave-page/leave-page-provider"
 import QueryClientProvider from "@/services/react-query/query-client-provider"
 import queryClient from "@/services/react-query/query-client"
 import ReactQueryDevtools from "@/services/react-query/react-query-devtools"
-import GoogleAuthProvider from "@/services/social-auth/google/google-auth-provider"
-import FacebookAuthProvider from "@/services/social-auth/facebook/facebook-auth-provider"
 import ConfirmDialogProvider from "@/components/confirm-dialog/confirm-dialog-provider"
 import { Inter as FontSans } from "next/font/google"
 import { cn } from "@/lib/utils"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { Toaster } from "@/components/ui/sonner"
+import Footer from "@/components/footer"
 
-type Props = {
-  params: { language: string }
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { t } = await getServerTranslation(params.language, "common")
-
+export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: t("title"),
+    title: "Trang chủ",
   }
 }
 
@@ -55,33 +45,27 @@ export default function RootLayout({
       <body>
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
-          <ThemeProvider>
-            <body
-              className={cn(
-                "min-h-screen bg-background font-sans antialiased",
-                fontSans.variable
-              )}
-            >
-              <SnackbarProvider maxSnack={3}>
-                <TooltipProvider>
-                  <StoreLanguageProvider>
-                    <ConfirmDialogProvider>
-                      <AuthProvider>
-                        <GoogleAuthProvider>
-                          <FacebookAuthProvider>
-                            <LeavePageProvider>
-                              <ResponsiveAppBar />
-                              <div className="pt-14">{children}</div>
-                            </LeavePageProvider>
-                          </FacebookAuthProvider>
-                        </GoogleAuthProvider>
-                      </AuthProvider>
-                    </ConfirmDialogProvider>
-                  </StoreLanguageProvider>
-                </TooltipProvider>
-              </SnackbarProvider>
-            </body>
-          </ThemeProvider>
+          <body
+            className={cn(
+              "min-h-screen bg-background font-sans antialiased",
+              fontSans.variable
+            )}
+          >
+            <TooltipProvider>
+              <StoreLanguageProvider>
+                <ConfirmDialogProvider>
+                  <AuthProvider>
+                    <LeavePageProvider>
+                      <ResponsiveAppBar />
+                      <div className="pt-14 pb-44">{children}</div>
+                      <Footer />
+                    </LeavePageProvider>
+                  </AuthProvider>
+                </ConfirmDialogProvider>
+              </StoreLanguageProvider>
+            </TooltipProvider>
+            <Toaster richColors />
+          </body>
         </QueryClientProvider>
       </body>
     </html>

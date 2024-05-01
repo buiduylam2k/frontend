@@ -1,53 +1,55 @@
-"use client";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Visibility from "@mui/icons-material/Visibility";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import TextField from "@mui/material/TextField";
-import React, { ChangeEvent, forwardRef, useState } from "react";
+"use client"
+import VisibilityOff from "@mui/icons-material/VisibilityOff"
+import Visibility from "@mui/icons-material/Visibility"
+import IconButton from "@mui/material/IconButton"
+import InputAdornment from "@mui/material/InputAdornment"
+import TextField from "@mui/material/TextField"
+import React, { ChangeEvent, forwardRef, useState } from "react"
 import {
   Controller,
   ControllerProps,
   FieldPath,
   FieldValues,
-} from "react-hook-form";
-import { InputBaseComponentProps } from "@mui/material/InputBase/InputBase";
+} from "react-hook-form"
+import { InputBaseComponentProps } from "@mui/material/InputBase/InputBase"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 type TextInputProps = {
-  label: string;
-  type?: string;
-  autoFocus?: boolean;
-  disabled?: boolean;
-  readOnly?: boolean;
-  error?: string;
-  testId?: string;
-  autoComplete?: string;
-  inputComponent?: React.ElementType<InputBaseComponentProps>;
-  multiline?: boolean;
-  minRows?: number;
-  maxRows?: number;
-};
+  label: string
+  type?: string
+  autoFocus?: boolean
+  disabled?: boolean
+  readOnly?: boolean
+  error?: string
+  testId?: string
+  autoComplete?: string
+  inputComponent?: React.ElementType<InputBaseComponentProps>
+  multiline?: boolean
+  minRows?: number
+  maxRows?: number
+}
 
 const TextInput = forwardRef<
   HTMLDivElement | null,
   TextInputProps & {
-    name: string;
-    value: string;
+    name: string
+    value: string
     onChange: (
       value: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => void;
-    onBlur: () => void;
+    ) => void
+    onBlur: () => void
   }
 >(function TextInput(props, ref) {
-  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowPassword, setIsShowPassword] = useState(false)
 
-  const handleClickShowPassword = () => setIsShowPassword((show) => !show);
+  const handleClickShowPassword = () => setIsShowPassword((show) => !show)
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    event.preventDefault();
-  };
+    event.preventDefault()
+  }
   return (
     <TextField
       ref={ref}
@@ -89,8 +91,8 @@ const TextInput = forwardRef<
           ) : undefined,
       }}
     />
-  );
-});
+  )
+})
 
 function FormTextInput<
   TFieldValues extends FieldValues = FieldValues,
@@ -120,7 +122,7 @@ function FormTextInput<
         />
       )}
     />
-  );
+  )
 }
 
-export default FormTextInput;
+export default FormTextInput

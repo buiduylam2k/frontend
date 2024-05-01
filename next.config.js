@@ -3,6 +3,7 @@ const nextConfig = {
   eslint: {
     dirs: ["src", "cypress/e2e"],
   },
+  reactStrictMode: false,
   images: {
     remotePatterns: [
       {
@@ -12,6 +13,10 @@ const nextConfig = {
       {
         protocol: "http",
         hostname: "localhost",
+      },
+      {
+        protocol: "https",
+        hostname: "flowbite.com",
       },
     ],
   },

@@ -34,6 +34,10 @@ export default function NewBlogs() {
     },
   })
 
+  if (!data?.length) {
+    return null
+  }
+
   return (
     <div className="mt-10">
       <h3 className="text-2xl font-semibold tracking-tight">
@@ -41,7 +45,7 @@ export default function NewBlogs() {
       </h3>
 
       <ul className="mt-5 flex flex-col gap-10">
-        {data?.map((item, i) => (
+        {data.map((item, i) => (
           <li key={i}>
             <BlogCard {...item} />
           </li>

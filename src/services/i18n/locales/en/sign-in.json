@@ -1,28 +1,28 @@
 {
-  "title": "Sign In",
+  "title": "Đăng nhập vào My App",
   "actions": {
-    "submit": "Sign In",
-    "createAccount": "Create Account",
-    "forgotPassword": "Forgot Password?"
+    "submit": "Đăng nhập",
+    "createAccount": "Tạo tài khoản mới",
+    "forgotPassword": "Quên mật khẩu?"
   },
   "inputs": {
     "email": {
-      "label": "Email",
+      "label": "Địa chỉ Email",
       "validation": {
-        "required": "Email is required",
-        "invalid": "Email is not valid",
+        "required": "Email không được để trống",
+        "invalid": "Email không đúng định dạng",
         "server": {
-          "emailNotExists": "Email does not exist"
+          "emailNotExists": "Email không tồn tại"
         }
       }
     },
     "password": {
-      "label": "Password",
+      "label": "Mật khẩu",
       "validation": {
-        "required": "Password is required",
-        "min": "Password must be at least 6 characters long",
+        "required": "Mật khẩu là bắt buộc",
+        "min": "Mật khẩu phải có ít nhất 6 ký tự",
         "server": {
-          "incorrectPassword": "Password is not valid"
+          "incorrectPassword": "Mật khẩu không chính xác"
         }
       }
     }

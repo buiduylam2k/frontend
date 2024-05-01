@@ -57,7 +57,9 @@ export default function MenuUser(props: IMenuUser) {
               <DropdownMenuSeparator />
 
               <DropdownMenuItem className="cursor-pointer" asChild>
-                <Link href="/profile">{t("common:navigation.profile")}</Link>
+                <Link href="/trang-ca-nhan">
+                  {t("common:navigation.profile")}
+                </Link>
               </DropdownMenuItem>
 
               <DropdownMenuItem onClick={logOut} className="cursor-pointer">
@@ -69,11 +71,11 @@ export default function MenuUser(props: IMenuUser) {
       ) : (
         <div className="grow-0 hidden md:flex gap-4">
           <Button asChild>
-            <Link href="/sign-in">{t("common:navigation.signIn")}</Link>
+            <Link href="/dang-nhap">{t("common:navigation.signIn")}</Link>
           </Button>
 
           <Button variant="secondary">
-            <Link href="/sign-up">{t("common:navigation.signUp")}</Link>
+            <Link href="/dang-ky">{t("common:navigation.signUp")}</Link>
           </Button>
         </div>
       )}

@@ -63,7 +63,9 @@ export function useGetBlogService() {
   )
 }
 
-export type BlogPostRequest = Pick<Blog, "title" | "content" | "tags">
+export type BlogPostRequest = Pick<Blog, "title" | "content" | "banner"> & {
+  tags: string[]
+}
 
 export type BlogPostResponse = Blog
 
@@ -94,7 +96,7 @@ export function usePatchBlogService() {
 
   return useCallback(
     (data: BlogPatchRequest, requestConfig?: RequestConfigType) => {
-      return fetch(BLOGS_URL, {
+      return fetch(`${BLOGS_URL}/${data.id}`, {
         method: "PATCH",
         body: JSON.stringify(data.data),
         ...requestConfig,
@@ -110,7 +112,7 @@ export type BlogsDeleteRequest = {
 
 export type BlogsDeleteResponse = undefined
 
-export function useDeletePostsService() {
+export function useDeleteBlogService() {
   const fetch = useFetch()
 
   return useCallback(
