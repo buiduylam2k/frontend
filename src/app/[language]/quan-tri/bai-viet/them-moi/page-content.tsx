@@ -18,14 +18,11 @@ import { RoleEnum } from "@/services/api/types/role"
 import { useFileUploadService } from "@/services/api/services/files"
 
 import dynamic from "next/dynamic"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
-import {
-  useGetBlogService,
-  usePatchBlogService,
-} from "@/services/api/services/blog"
-import { useParams, useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { useCreatePostService } from "@/services/api/services/post"
 import EdiableJs from "@/components/editable-js"
 
 const CkEditor = dynamic(() => import("@/components/ck-editor/editor"), {
@@ -35,7 +32,7 @@ const CkEditor = dynamic(() => import("@/components/ck-editor/editor"), {
 const FormSchema = z.object({
   title: z.string().min(10, "Tiêu đề phải tối thiểu 10 ký tự!"),
   content: z.string().min(6, "Nội dung phải tối thiểu 6 ký tự!"),
-  banner: z.optional(z.string()),
+  banner: z.string().min(1, "Hình ảnh không được để trống!"),
   tags: z.array(z.string()),
 })
 
@@ -53,20 +50,15 @@ function FormActions() {
 
   return (
     <Button type="submit" disabled={isSubmitting}>
-      Cập nhật
+      Thêm mới
     </Button>
   )
 }
 
-function EditBlog() {
+function CreateBlog() {
   const fetchFileUpload = useFileUploadService()
-  const fetchUpdateBlog = usePatchBlogService()
-  const fetchBlog = useGetBlogService()
-
+  const fetchCreatePost = useCreatePostService()
   const [file, setFile] = useState<File | undefined>()
-
-  const params = useParams<{ slug: string }>()
-  const queryParams = useSearchParams()
 
   const router = useRouter()
 
@@ -75,47 +67,34 @@ function EditBlog() {
     defaultValues,
   })
 
-  const { handleSubmit, setValue } = form
+  const { handleSubmit } = form
 
   const onSubmit = async (formData: TFormSchema) => {
+    if (!file) {
+      return
+    }
     const cloneFormData = { ...formData }
-    if (file) {
-      const { status: statusUpload, data: dataUpload } =
-        await fetchFileUpload(file)
-      if (statusUpload === HTTP_CODES_ENUM.CREATED) {
-        cloneFormData.banner = dataUpload.file.path
-      }
+    const { status: statusUpload, data: dataUpload } =
+      await fetchFileUpload(file)
+    if (statusUpload === HTTP_CODES_ENUM.CREATED) {
+      cloneFormData.banner = dataUpload.file.path
     }
 
-    const { status } = await fetchUpdateBlog({
-      slug: params.slug,
-      data: cloneFormData,
-    })
+    const { status } = await fetchCreatePost(cloneFormData)
 
-    if (status !== HTTP_CODES_ENUM.OK) {
+    if (status !== HTTP_CODES_ENUM.CREATED) {
       toast.error("Đã có lỗi sảy ra", {
         description: "Vui lòng thử lại sau",
       })
       // nếu lỗi cần xoá ảnh đi
     } else {
       toast.success("Thành công", {
-        description: "Cập nhật blog thành công!",
+        description: "Tạo bài viết thành công!",
       })
 
-      router.replace("/quan-tri/blogs")
+      router.replace("/quan-tri/bai-viet")
     }
   }
-
-  useEffect(() => {
-    fetchBlog({
-      slug: params.slug,
-    }).then(({ data, status }) => {
-      if (status === HTTP_CODES_ENUM.OK) {
-        setValue("title", data.title)
-        setValue("content", data.content)
-      }
-    })
-  }, [params.slug])
 
   return (
     <Form {...form}>
@@ -123,7 +102,7 @@ function EditBlog() {
         <div className="px-4 sm:px-10 m-auto space-y-4 py-10">
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
-              Chỉnh sửa {queryParams.get("title")}
+              Thêm mới bài viết
             </h1>
           </div>
 
@@ -134,7 +113,7 @@ function EditBlog() {
               <FormItem>
                 <FormLabel>Tiêu đề</FormLabel>
                 <FormControl>
-                  <Input placeholder={"Tiêu đề blog"} {...field} />
+                  <Input placeholder={"Tiêu đề bài viết"} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -173,6 +152,7 @@ function EditBlog() {
                   <EdiableJs
                     initialValue={field.value}
                     onChange={field.onChange}
+                    placeholder="Nội dung bài viết"
                   />
                 </FormControl>
                 <FormMessage />
@@ -187,6 +167,6 @@ function EditBlog() {
   )
 }
 
-export default withPageRequiredAuth(EditBlog, {
+export default withPageRequiredAuth(CreateBlog, {
   roles: [RoleEnum.ADMIN],
 })

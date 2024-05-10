@@ -1,6 +1,6 @@
 "use client"
 import BlogCard from "../blog-card"
-import { useGetBlogsService } from "@/services/api/services/blogs"
+import { useGetBlogsService } from "@/services/api/services/blog"
 import { useQuery } from "@tanstack/react-query"
 import { SortEnum } from "@/services/api/types/sort-type"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"

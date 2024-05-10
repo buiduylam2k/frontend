@@ -1,11 +1,8 @@
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 import { createQueryKeys } from "@/services/react-query/query-key-factory"
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { useGetBlogsService } from "@/services/api/services/blogs"
-import {
-  BlogFilterType,
-  BlogSortType,
-} from "../../quan-tri/blogs/blog-filter-types"
+import { useGetBlogsService } from "@/services/api/services/blog"
+import { BlogFilterType, BlogSortType } from "../blog-filter-types"
 
 export const blogsQueryKeys = createQueryKeys(["blogs"], {
   list: () => ({

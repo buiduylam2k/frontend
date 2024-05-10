@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import BlogDetail from "./page-content"
-import { BlogResponse } from "@/services/api/services/blogs"
+import { BlogResponse } from "@/services/api/services/blog"
 import wrapperFetchJsonResponse from "@/services/api/wrapper-fetch-json-response"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 
@@ -10,7 +10,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { data, status } = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/v1/blogs/${params.slug}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/v1/blogs/${params.slug}/seo`,
     {
       method: "GET",
     }

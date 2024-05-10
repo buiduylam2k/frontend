@@ -13,21 +13,16 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast"
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth"
 import { RoleEnum } from "@/services/api/types/role"
 import { useFileUploadService } from "@/services/api/services/files"
 
-import dynamic from "next/dynamic"
 import { useState } from "react"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
-import { usePostBlogService } from "@/services/api/services/blogs"
+import { usePostBlogService } from "@/services/api/services/blog"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
-
-const CkEditor = dynamic(() => import("@/components/ck-editor/editor"), {
-  ssr: false,
-})
+import EdiableJs from "@/components/editable-js"
 
 const FormSchema = z.object({
   title: z.string().min(10, "Tiêu đề phải tối thiểu 10 ký tự!"),
@@ -142,8 +137,6 @@ function CreateBlog() {
             )}
           />
 
-          {/* <DraftJsEditor /> */}
-
           <FormField
             control={form.control}
             name="content"
@@ -151,7 +144,7 @@ function CreateBlog() {
               <FormItem>
                 <FormLabel>Nội dung</FormLabel>
                 <FormControl>
-                  <CkEditor
+                  <EdiableJs
                     initialValue={field.value}
                     onChange={field.onChange}
                   />

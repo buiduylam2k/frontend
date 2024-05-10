@@ -26,7 +26,6 @@ import {
 } from "@/services/api/services/blog"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { toast } from "sonner"
-import EdiableJs from "@/components/editable-js"
 
 const CkEditor = dynamic(() => import("@/components/ck-editor/editor"), {
   ssr: false,
@@ -170,7 +169,7 @@ function EditBlog() {
               <FormItem>
                 <FormLabel>Nội dung</FormLabel>
                 <FormControl>
-                  <EdiableJs
+                  <CkEditor
                     initialValue={field.value}
                     onChange={field.onChange}
                   />

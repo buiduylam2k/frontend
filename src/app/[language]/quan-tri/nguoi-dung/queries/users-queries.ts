@@ -1,8 +1,8 @@
-import { useGetUsersService } from "@/services/api/services/users";
-import HTTP_CODES_ENUM from "@/services/api/types/http-codes";
-import { createQueryKeys } from "@/services/react-query/query-key-factory";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { UserFilterType, UserSortType } from "../user-filter-types";
+import { useGetUsersService } from "@/services/api/services/users"
+import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
+import { createQueryKeys } from "@/services/react-query/query-key-factory"
+import { useInfiniteQuery } from "@tanstack/react-query"
+import { UserFilterType, UserSortType } from "../user-filter-types"
 
 export const usersQueryKeys = createQueryKeys(["users"], {
   list: () => ({
@@ -12,23 +12,25 @@ export const usersQueryKeys = createQueryKeys(["users"], {
         sort,
         filter,
       }: {
-        filter: UserFilterType | undefined;
-        sort?: UserSortType | undefined;
+        filter: UserFilterType | undefined
+        sort?: UserSortType | undefined
       }) => ({
         key: [sort, filter],
       }),
     },
   }),
-});
+})
 
 export const useUserListQuery = ({
   sort,
   filter,
+  limit,
 }: {
-  filter?: UserFilterType | undefined;
-  sort?: UserSortType | undefined;
+  filter?: UserFilterType | undefined
+  sort?: UserSortType | undefined
+  limit?: number
 } = {}) => {
-  const fetch = useGetUsersService();
+  const fetch = useGetUsersService()
 
   const query = useInfiniteQuery({
     queryKey: usersQueryKeys.list().sub.by({ sort, filter }).key,
@@ -37,27 +39,32 @@ export const useUserListQuery = ({
       const { status, data } = await fetch(
         {
           page: pageParam,
-          limit: 10,
+          limit: limit ?? 1000,
           filters: filter,
           sort: sort ? [sort] : undefined,
         },
         {
           signal,
         }
-      );
+      )
 
       if (status === HTTP_CODES_ENUM.OK) {
         return {
           data: data.data,
           nextPage: data.hasNextPage ? pageParam + 1 : undefined,
-        };
+        }
+      } else {
+        return {
+          data: [],
+          nextPage: undefined,
+        }
       }
     },
     getNextPageParam: (lastPage) => {
-      return lastPage?.nextPage;
+      return lastPage?.nextPage
     },
     gcTime: 0,
-  });
+  })
 
-  return query;
-};
+  return query
+}

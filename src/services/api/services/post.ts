@@ -63,7 +63,9 @@ export function useGetPostService() {
   )
 }
 
-export type CreatePostRequest = Pick<Post, "content" | "tags">
+export type CreatePostRequest = Pick<Post, "content"> & {
+  tags: string[]
+}
 
 export type CreatePostResponse = Post
 

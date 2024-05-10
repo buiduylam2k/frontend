@@ -1,17 +1,10 @@
 import type { Metadata } from "next"
-import { getServerTranslation } from "@/services/i18n"
-import Users from "./page-content"
+import Posts from "./page-content"
 
-type Props = {
-  params: { language: string }
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { t } = await getServerTranslation(params.language, "admin-panel-users")
-
+export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: t("title"),
+    title: "Quản trị bài viết",
   }
 }
 
-export default Users
+export default Posts

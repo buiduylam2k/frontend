@@ -4,11 +4,7 @@ import { RoleEnum } from "@/services/api/types/role"
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth"
 import { useMemo, useState } from "react"
 import removeDuplicatesFromArrayObjects from "@/services/helpers/remove-duplicates-from-array-of-objects"
-import { useSearchParams } from "next/navigation"
-import { columns } from "./columns"
-import { Blog } from "@/services/api/types/blog"
 import { useBlogListQuery } from "../../blogs/queries/blogs-queries"
-import { BlogFilterType } from "./blog-filter-types"
 import { Input } from "@/components/ui/input"
 import {
   ColumnFiltersState,
@@ -31,9 +27,29 @@ import {
 } from "@/components/ui/table"
 import { DataTablePagination } from "@/components/my-data-table/data-table-pagination"
 import { DataTableViewOptions } from "@/components/my-data-table/data-table-view-options"
-import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import Link from "@/components/link"
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useDeleteBlogService } from "@/services/api/services/blog"
+import { Blog } from "@/services/api/types/blog"
+import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
+import formatDate from "@/services/helpers/format-date"
+import getBlogUrl from "@/services/helpers/get-blog-url"
+import { getUserFullname } from "@/services/helpers/get-user-fullname"
+import { ColumnDef } from "@tanstack/react-table"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+import EdiableJs from "@/components/editable-js"
 
 const getColumnName = (key: string) => {
   const map: Record<string, string> = {
@@ -53,20 +69,13 @@ const getColumnName = (key: string) => {
 }
 
 function Blogs() {
-  const searchParams = useSearchParams()
+  const fetchDeleteBlog = useDeleteBlogService()
+  const router = useRouter()
 
   const [sorting, setSorting] = useState<SortingState>([])
 
-  const filter = useMemo(() => {
-    const searchParamsFilter = searchParams.get("filter")
-
-    return searchParamsFilter
-      ? (JSON.parse(searchParamsFilter) as BlogFilterType)
-      : undefined
-  }, [searchParams])
-
   // FIXME: fix 10000, not call to server with sort and filter
-  const { data, refetch } = useBlogListQuery({ filter, limit: 100000 })
+  const { data, refetch } = useBlogListQuery({ limit: 100000 })
 
   const result = useMemo(() => {
     const result =
@@ -78,6 +87,152 @@ function Blogs() {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
+
+  const columns: ColumnDef<Blog>[] = [
+    // delete many
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "title",
+      header: "Tiêu đề",
+      cell: ({ row }) => (
+        <div className="line-clamp-2">{row.getValue("title")}</div>
+      ),
+    },
+    {
+      accessorKey: "content",
+      header: "Nội dung",
+      cell: ({ row }) => {
+        return (
+          <div className="line-clamp-2">
+            <EdiableJs preview initialValue={row.getValue("content")} />
+          </div>
+        )
+      },
+    },
+    {
+      accessorKey: "views",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("views")} lượt xem</div>
+      ),
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Lượt xem
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
+    },
+    {
+      accessorKey: "author",
+      header: "Người tạo",
+      cell: ({ row }) => (
+        <div className="capitalize">
+          {getUserFullname(row.getValue("author"))}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "createdAt",
+      cell: ({ row }) => (
+        <div className="capitalize">
+          {formatDate(row.getValue("createdAt"))}
+        </div>
+      ),
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Ngày tạo
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const blog = row.original
+
+        const deleteAction = async () => {
+          const { status } = await fetchDeleteBlog({
+            slug: blog.slug,
+          })
+
+          if (status !== HTTP_CODES_ENUM.NO_CONTENT) {
+            toast.error("Thất bại", {
+              description: "Đã có lỗi sảy ra, vui lòng thử lại sau!",
+            })
+          } else {
+            toast.success("Xoá thành công!")
+            refetch()
+          }
+        }
+
+        const goToEdit = () =>
+          router.push(
+            `/quan-tri/blogs/chinh-sua/${blog.slug}?title=${blog.title}`
+          )
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Hành động</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => {
+                  navigator.clipboard
+                    .writeText(getBlogUrl(blog.slug))
+                    .then(() => {
+                      toast.success("Copy thành công!")
+                    })
+                }}
+              >
+                Sao chép đường dẫn
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={goToEdit}>Chỉnh sửa</DropdownMenuItem>
+              <DropdownMenuItem onClick={deleteAction}>
+                Xoá blog
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )
+      },
+    },
+  ]
 
   const table = useReactTable({
     data: result,

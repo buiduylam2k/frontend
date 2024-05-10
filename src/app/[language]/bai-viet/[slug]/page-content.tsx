@@ -15,6 +15,7 @@ import { useQuery } from "@tanstack/react-query"
 import { postsQueryKeys } from "../queries/posts-queries"
 import formatDateRelativeToNow from "@/services/helpers/format-date-relative-to-now"
 import useAuth from "@/services/auth/use-auth"
+import EdiableJs from "@/components/editable-js"
 
 type Props = {
   params: { language: string; slug: string }
@@ -87,12 +88,10 @@ export default function PostDetail({ params }: Props) {
         </div>
 
         {/* CONTENT */}
-        <div
-          className="mt-4 ck-content"
-          dangerouslySetInnerHTML={{
-            __html: data?.content ?? "",
-          }}
-        />
+
+        <div className="mt-4">
+          <EdiableJs initialValue={data?.content ?? ""} preview />
+        </div>
 
         {/* COMMENTS */}
         <div className="mt-4">

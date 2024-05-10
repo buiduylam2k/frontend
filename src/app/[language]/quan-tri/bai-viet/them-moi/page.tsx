@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
-import Users from "./page-content"
+import CreatePost from "./page-content"
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Quản trị người dùng",
+    title: "Thêm mới bài viết",
   }
 }
 
-export default Users
+export default CreatePost

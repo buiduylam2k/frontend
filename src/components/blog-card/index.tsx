@@ -15,12 +15,12 @@ import { Blog } from "@/services/api/types/blog"
 import formatDate from "@/services/helpers/format-date"
 import Link from "../link"
 import getImagePath from "@/services/helpers/get-image-path"
+import EdiableJs from "../editable-js"
 
 interface IBlogCard extends Partial<Blog> {}
 
 export default function BlogCard(props: IBlogCard) {
   const { title, content = "", createdAt, tags, id, slug, banner } = props
-
   return (
     <Link key={id} href={`/blogs/${slug}`}>
       <Card className="w-full">
@@ -35,18 +35,15 @@ export default function BlogCard(props: IBlogCard) {
             {formatDate(createdAt)}
           </span>
           <div className="flex items-start justify-start">
-            <CardTitle className="flex-1 mt-1">{title}</CardTitle>
+            <CardTitle className="flex-1 mt-1 line-clamp-4">{title}</CardTitle>
             <Button variant={"ghost"} size={"icon"}>
               <ArrowUpRight />
             </Button>
           </div>
           <CardDescription>
-            <div
-              className="line-clamp-3"
-              dangerouslySetInnerHTML={{
-                __html: content,
-              }}
-            />
+            <div className="line-clamp-3">
+              <EdiableJs preview initialValue={content} />
+            </div>
           </CardDescription>
         </CardHeader>
         <CardContent>

@@ -85,7 +85,7 @@ export function usePostBlogService() {
 }
 
 export type BlogPatchRequest = {
-  id: Blog["id"]
+  slug: Blog["slug"]
   data: Partial<Pick<Blog, "title" | "content">>
 }
 
@@ -96,7 +96,7 @@ export function usePatchBlogService() {
 
   return useCallback(
     (data: BlogPatchRequest, requestConfig?: RequestConfigType) => {
-      return fetch(`${BLOGS_URL}/${data.id}`, {
+      return fetch(`${BLOGS_URL}/${data.slug}`, {
         method: "PATCH",
         body: JSON.stringify(data.data),
         ...requestConfig,
@@ -107,7 +107,7 @@ export function usePatchBlogService() {
 }
 
 export type BlogsDeleteRequest = {
-  id: Blog["id"]
+  slug: Blog["slug"]
 }
 
 export type BlogsDeleteResponse = undefined
@@ -117,8 +117,28 @@ export function useDeleteBlogService() {
 
   return useCallback(
     (data: BlogsDeleteRequest, requestConfig?: RequestConfigType) => {
-      return fetch(`${BLOGS_URL}/${data.id}`, {
+      return fetch(`${BLOGS_URL}/${data.slug}`, {
         method: "DELETE",
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<BlogsDeleteResponse>)
+    },
+    [fetch]
+  )
+}
+
+export type BlogAddViewRequest = {
+  slug: Blog["slug"]
+}
+
+export type BlogAddViewResponse = undefined
+
+export function useAddViewBlogService() {
+  const fetch = useFetch()
+
+  return useCallback(
+    (data: BlogsDeleteRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${BLOGS_URL}/${data.slug}/add-view`, {
+        method: "PATCH",
         ...requestConfig,
       }).then(wrapperFetchJsonResponse<BlogsDeleteResponse>)
     },

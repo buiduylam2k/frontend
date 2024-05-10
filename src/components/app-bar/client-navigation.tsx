@@ -1,24 +1,31 @@
-import { useTranslation } from "@/services/i18n/client"
 import Link from "../link"
-import { Button } from "../ui/button"
 
 export default function ClientNavigation() {
-  const { t } = useTranslation("common")
-
   return (
-    <div className="grow hidden md:flex px-6 gap-5">
-      <Button variant={"ghost"} asChild className="text-base font-semibold">
-        <Link href={"/"}>{t("common:navigation.home")}</Link>
-      </Button>
-      <Button variant={"ghost"} asChild className="text-base">
-        <Link href={"/blogs"}>{t("common:navigation.blogs")}</Link>
-      </Button>
-      <Button variant={"ghost"} asChild className="text-base">
-        <Link href={"/bai-viet"}>{t("common:navigation.posts")}</Link>
-      </Button>
-      <Button variant={"ghost"} asChild className="text-base">
-        <Link href={"/lien-he"}>{t("common:navigation.contact")}</Link>
-      </Button>
+    <div className="grow hidden md:flex px-6 gap-12 justify-center">
+      <Link href={"/"}>
+        <span className="text-sm font-semibold leading-6 text-gray-900">
+          Trang chủ
+        </span>
+      </Link>
+
+      <Link href={"/blogs"}>
+        <span className="text-sm font-semibold leading-6 text-gray-900">
+          Blogs
+        </span>
+      </Link>
+
+      <Link href={"/bai-viet"}>
+        <span className="text-sm font-semibold leading-6 text-gray-900">
+          Bài viết
+        </span>
+      </Link>
+
+      <Link href={"/lien-he"}>
+        <span className="text-sm font-semibold leading-6 text-gray-900">
+          Liên hệ
+        </span>
+      </Link>
     </div>
   )
 }
