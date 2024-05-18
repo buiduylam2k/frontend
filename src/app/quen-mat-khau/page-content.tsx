@@ -45,7 +45,7 @@ function ForgotPassword() {
     },
   })
 
-  const { handleSubmit, watch } = form
+  const { handleSubmit } = form
 
   const onSubmit = async (formData: z.infer<typeof FormSchema>) => {
     const { status } = await fetchAuthForgotPassword(formData)
@@ -67,8 +67,6 @@ function ForgotPassword() {
       })
     }
   }
-
-  const isAlreadySubmiting = !!watch("email")
 
   return (
     <Form {...form}>
@@ -94,7 +92,7 @@ function ForgotPassword() {
             )}
           />
 
-          <FormActions isEnabled={isAlreadySubmiting} />
+          <FormActions />
         </div>
       </form>
     </Form>

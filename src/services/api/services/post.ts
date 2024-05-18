@@ -128,7 +128,7 @@ export function useDeletePostService() {
 
 export type AddCommentPostRequest = {
   content: string
-  id: string | number
+  slug: string | number
 }
 
 export function useAddCommentPostService() {
@@ -136,8 +136,8 @@ export function useAddCommentPostService() {
 
   return useCallback(
     (data: AddCommentPostRequest, requestConfig?: RequestConfigType) => {
-      const { id, content } = data
-      return fetch(`${POSTS_URL}/${id}/add-comment`, {
+      const { slug, content } = data
+      return fetch(`${POSTS_URL}/${slug}/add-comment`, {
         method: "POST",
         body: JSON.stringify({ content }),
         ...requestConfig,

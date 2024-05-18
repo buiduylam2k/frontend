@@ -35,23 +35,17 @@ interface IUseBlogListQuery {
   limit?: number
 }
 
-export const useBlogListQuery = ({
-  sort,
-  filter,
-  limit,
-}: IUseBlogListQuery = {}) => {
+export const useBlogListQuery = ({ limit }: IUseBlogListQuery = {}) => {
   const fetch = useGetBlogsService()
 
   const query = useInfiniteQuery({
-    queryKey: blogsQueryKeys.list().sub.by({ sort, filter }).key,
+    queryKey: blogsQueryKeys.list().key,
     initialPageParam: 1,
     queryFn: async ({ pageParam, signal }) => {
       const { status, data } = await fetch(
         {
           page: pageParam,
           limit: limit ?? 10,
-          filters: filter,
-          sort: sort ? [sort] : undefined,
         },
         {
           signal,

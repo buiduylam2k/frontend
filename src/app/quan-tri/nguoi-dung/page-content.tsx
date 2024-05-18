@@ -30,25 +30,14 @@ import { Plus } from "lucide-react"
 import Link from "@/components/link"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
+
 import formatDate from "@/services/helpers/format-date"
 import { getUserFullname } from "@/services/helpers/get-user-fullname"
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-import { toast } from "sonner"
+import { ArrowUpDown } from "lucide-react"
 import { useUserListQuery } from "./queries/users-queries"
 import { User } from "@/services/api/types/user"
 import getRoleName from "@/services/helpers/get-role-name"
-import { useDeleteUsersService } from "@/services/api/services/users"
-import useAuth from "@/services/auth/use-auth"
 
 const getColumnName = (key: string) => {
   const map: Record<string, string> = {
@@ -62,13 +51,9 @@ const getColumnName = (key: string) => {
 }
 
 function Users() {
-  const { user: authUser } = useAuth()
-
   const [sorting, setSorting] = useState<SortingState>([])
 
-  const { data, refetch } = useUserListQuery()
-
-  const fetchUserDelete = useDeleteUsersService()
+  const { data } = useUserListQuery()
 
   const result = useMemo(() => {
     const result =

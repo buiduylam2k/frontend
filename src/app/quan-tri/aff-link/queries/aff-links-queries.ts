@@ -1,7 +1,6 @@
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 import { createQueryKeys } from "@/services/react-query/query-key-factory"
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { useGetBlogsService } from "@/services/api/services/blog"
 import { AffLinkFilterType, AffLinkSortType } from "../aff-link-filter-types"
 import { useGetAffLinksService } from "@/services/api/services/aff-link"
 

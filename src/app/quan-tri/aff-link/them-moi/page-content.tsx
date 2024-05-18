@@ -15,9 +15,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth"
 import { RoleEnum } from "@/services/api/types/role"
-import { useFileUploadService } from "@/services/api/services/files"
 
-import { useState } from "react"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
@@ -46,9 +44,7 @@ function FormActions() {
 }
 
 function CreateAffLink() {
-  const fetchFileUpload = useFileUploadService()
   const fetchCreateAffLink = usePostAffLinkService()
-  const [file, setFile] = useState<File | undefined>()
 
   const router = useRouter()
 
@@ -80,7 +76,7 @@ function CreateAffLink() {
       <form onSubmit={handleSubmit(onSubmit)} className="">
         <div className="px-4 sm:px-10 m-auto space-y-4 py-10">
           <div className="flex flex-col space-y-2 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight">
+            <h1 className="text-2xl font-semibold tracking-tigsht">
               Thêm mới aff link
             </h1>
           </div>

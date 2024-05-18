@@ -1,3 +1,4 @@
+import EdiableJs from "@/components/editable-js"
 import { Button } from "@/components/ui/button"
 import {
   FormControl,
@@ -6,7 +7,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Textarea } from "@/components/ui/textarea"
+// import { Textarea } from "@/components/ui/textarea"
 import { useAddCommentPostService } from "@/services/api/services/post"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -34,12 +35,12 @@ function FormActions() {
 }
 
 interface ICommentFormProps {
-  postId: string | number
+  slug: string | number
   refresh: () => void
 }
 
 export default function CommentForm(props: ICommentFormProps) {
-  const { postId, refresh } = props
+  const { slug, refresh } = props
   const validationSchema = useValidationSchema()
 
   const addComment = useAddCommentPostService()
@@ -56,7 +57,7 @@ export default function CommentForm(props: ICommentFormProps) {
   const onSubmit = async ({ content }: CommentFormData) => {
     const { status } = await addComment({
       content,
-      id: postId,
+      slug: slug,
     })
 
     if (status === HTTP_CODES_ENUM.NO_CONTENT) {
@@ -78,10 +79,10 @@ export default function CommentForm(props: ICommentFormProps) {
               <FormItem>
                 <FormLabel className="sr-only">Comment của bạn</FormLabel>
                 <FormControl>
-                  <Textarea
-                    rows={6}
+                  <EdiableJs
+                    initialValue={field.value}
+                    onChange={field.onChange}
                     placeholder="Thêm bình luận..."
-                    {...field}
                   />
                 </FormControl>
                 <FormMessage />

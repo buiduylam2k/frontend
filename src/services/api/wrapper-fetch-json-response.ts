@@ -1,5 +1,5 @@
 import { FetchJsonResponse } from "./types/fetch-json-response"
-import HTTP_CODES_ENUM from "./types/http-codes"
+// import HTTP_CODES_ENUM from "./types/http-codes"
 
 async function wrapperFetchJsonResponse<T>(
   response: Response
@@ -12,13 +12,14 @@ async function wrapperFetchJsonResponse<T>(
 
   return {
     status,
-    data: [
-      HTTP_CODES_ENUM.NO_CONTENT,
-      HTTP_CODES_ENUM.SERVICE_UNAVAILABLE,
-      HTTP_CODES_ENUM.INTERNAL_SERVER_ERROR,
-    ].includes(status)
-      ? await response.json()
-      : r,
+    // data: [
+    //   HTTP_CODES_ENUM.NO_CONTENT,
+    //   HTTP_CODES_ENUM.SERVICE_UNAVAILABLE,
+    //   HTTP_CODES_ENUM.INTERNAL_SERVER_ERROR,
+    // ].includes(status)
+    //   ? await response.json()
+    //   : r,
+    data: r,
   }
 }
 

@@ -1,6 +1,6 @@
 "use client"
 import withPageRequiredGuest from "@/services/auth/with-page-required-guest"
-import { useForm, useFormState, useWatch } from "react-hook-form"
+import { useForm, useFormState } from "react-hook-form"
 import {
   useAuthLoginService,
   useAuthSignUpService,
@@ -72,8 +72,7 @@ function SignUp() {
   const { handleSubmit } = form
 
   const onSubmit = async (formData: z.infer<typeof FormSchema>) => {
-    const { data: dataSignUp, status: statusSignUp } =
-      await fetchAuthSignUp(formData)
+    const { status: statusSignUp } = await fetchAuthSignUp(formData)
 
     if (statusSignUp === HTTP_CODES_ENUM.UNPROCESSABLE_ENTITY) {
       toast({

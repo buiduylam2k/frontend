@@ -49,7 +49,9 @@ export default function Contact() {
 
   const { handleSubmit } = form
 
-  const onSubmit = async (formData: TFormData) => {}
+  const onSubmit = async (formData: TFormData) => {
+    console.log("formData", formData)
+  }
 
   return (
     <Form {...form}>

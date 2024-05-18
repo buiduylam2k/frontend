@@ -1,6 +1,5 @@
 "use client"
 // Import React dependencies
-import * as React from "react"
 // Import the Editable package
 import {
   Descendant,
@@ -80,6 +79,7 @@ import Image from "next/image"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import Preview from "./preview"
 import Content from "./content"
+import { useCallback, useEffect, useMemo, useState } from "react"
 
 declare global {
   namespace NodeJS {
@@ -99,13 +99,13 @@ interface EdiableJsProps {
 export default function EdiableJs(props: EdiableJsProps) {
   const { initialValue, onChange, preview, placeholder } = props
 
-  const [connected, setConnected] = React.useState(false)
-  const [connecting, setConnection] = React.useState(false)
-  const [enableCollaborative, setEnableCollaborative] = React.useState(false)
+  const [connected, setConnected] = useState(false)
+  const [, setConnection] = useState(false)
+  const [enableCollaborative] = useState(false)
 
-  const document = React.useMemo(() => new Y.Doc(), [])
+  const document = useMemo(() => new Y.Doc(), [])
 
-  const provider = React.useMemo(() => {
+  const provider = useMemo(() => {
     const provider =
       typeof window === "undefined"
         ? null
@@ -136,7 +136,7 @@ export default function EdiableJs(props: EdiableJsProps) {
     return provider
   }, [document])
 
-  const editor = React.useMemo(() => {
+  const editor = useMemo(() => {
     const sharedType = document.get("content", Y.XmlText) as Y.XmlText
 
     let editor = withYjs(withEditable(createEditor()), sharedType, {
@@ -195,7 +195,7 @@ export default function EdiableJs(props: EdiableJsProps) {
     return () => unsubscribe()
   }, [editor])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!provider) return
     if (enableCollaborative) {
       provider.connect()
@@ -205,7 +205,7 @@ export default function EdiableJs(props: EdiableJsProps) {
     }
   }, [provider, enableCollaborative])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (connected) {
       YjsEditor.connect(editor)
     }
@@ -259,7 +259,7 @@ export default function EdiableJs(props: EdiableJsProps) {
 
   const remoteClients = useRemoteStates<CursorData>(editor)
 
-  const handleOnChange = React.useCallback(
+  const handleOnChange = useCallback(
     (value: Descendant[]) => {
       const isAstChange = editor.operations.some(
         (op) => "set_selection" !== op.type
@@ -271,8 +271,8 @@ export default function EdiableJs(props: EdiableJsProps) {
     [editor, onChange]
   )
 
-  const _value = React.useMemo(() => {
-    return initialValue ? JSON.parse(initialValue) : []
+  const _value = useMemo(() => {
+    return initialValue ? JSON.parse(initialValue) : undefined
   }, [initialValue])
 
   if (preview) {
@@ -300,7 +300,7 @@ export default function EdiableJs(props: EdiableJsProps) {
               <div className="shadow-sm rounded-lg bg-slate-50">
                 {Object.keys(remoteClients).map((id) => {
                   const state = remoteClients[id]
-                  if (!state.data) return
+                  if (!state.data) return null
                   const { name, avatar } = state.data
                   return (
                     <Tooltip key={id}>

@@ -95,7 +95,7 @@ const useValidationChangePasswordSchema = () => {
 
 function BasicInfoFormActions() {
   const { t } = useTranslation("profile")
-  const { isSubmitting, isDirty } = useFormState()
+  const { isSubmitting } = useFormState()
 
   return (
     <Button
@@ -112,7 +112,7 @@ function BasicInfoFormActions() {
 
 function ChangePasswordFormActions() {
   const { t } = useTranslation("profile")
-  const { isSubmitting, isDirty } = useFormState()
+  const { isSubmitting } = useFormState()
 
   return (
     <Button

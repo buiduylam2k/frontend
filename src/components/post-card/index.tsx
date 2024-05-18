@@ -4,7 +4,6 @@ import * as React from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import Link from "../link"
 import { Post } from "@/services/api/types/post"
-import formatDate from "@/services/helpers/format-date"
 import UserHoverCard from "../user-hover-card"
 import formatDateRelativeToNow from "@/services/helpers/format-date-relative-to-now"
 import EdiableJs from "../editable-js"
@@ -17,7 +16,7 @@ export default function PostCard(props: IPostCard) {
   const fullName = `${author?.firstName || ""} ${author?.lastName || ""}`
 
   return (
-    <Link key={id} href={`/bai-viet/${slug}`}>
+    <Link key={id} href={`/hoi-dap/${slug}`}>
       <div className="cursor-pointer border-b pb-4">
         <div className="flex items-start space-x-3">
           <UserHoverCard user={author}>

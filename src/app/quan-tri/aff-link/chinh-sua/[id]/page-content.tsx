@@ -15,9 +15,8 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth"
 import { RoleEnum } from "@/services/api/types/role"
-import { useFileUploadService } from "@/services/api/services/files"
 
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 
 import { useParams, useRouter, useSearchParams } from "next/navigation"
@@ -54,11 +53,8 @@ function FormActions() {
 }
 
 function EditAffLink() {
-  const fetchFileUpload = useFileUploadService()
   const fetchUpdateAffLink = usePatchAffLinkService()
   const fetchAffLink = useGetAffLinkService()
-
-  const [file, setFile] = useState<File | undefined>()
 
   const params = useParams<{ id: string }>()
   const queryParams = useSearchParams()
@@ -101,7 +97,7 @@ function EditAffLink() {
         setValue("isActive", data.isActive)
       }
     })
-  }, [params.id])
+  }, [params.id, fetchAffLink, setValue])
 
   return (
     <Form {...form}>

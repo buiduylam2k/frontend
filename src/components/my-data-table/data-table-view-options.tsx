@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
 import { Button } from "../ui/button"
-import { ChevronDown, SlidersHorizontal } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>

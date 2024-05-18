@@ -175,8 +175,6 @@ function Posts() {
       cell: ({ row }) => {
         const affLink = row.original
 
-        const isActive = affLink.isActive
-
         const deleteAction = async () => {
           const { status } = await fetchDeleteAffLink({
             id: affLink.id,

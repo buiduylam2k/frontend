@@ -42,7 +42,7 @@ export default function BlogDetail({ params }: Props) {
     fetchAddView({
       slug,
     })
-  }, [slug])
+  }, [slug, fetchAddView])
 
   return (
     <CommonTemplate>

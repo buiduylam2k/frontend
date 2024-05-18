@@ -1,10 +1,10 @@
-import { Descendant } from "@editablejs/models"
+import { Descendant, Editor } from "@editablejs/models"
 import { useMemo } from "react"
 import { HTMLSerializer } from "@editablejs/serializer/html"
 
 interface PreviewProps {
   initialValue?: string
-  editor: any
+  editor: Editor
 }
 
 export default function Preview(props: PreviewProps) {

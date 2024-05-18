@@ -3,7 +3,6 @@ import BlogDetail from "./page-content"
 import { BlogResponse } from "@/services/api/services/blog"
 import wrapperFetchJsonResponse from "@/services/api/wrapper-fetch-json-response"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
-import { openGraphImage } from "@/app/shared-metadata"
 import getImagePath from "@/services/helpers/get-image-path"
 
 type Props = {

@@ -15,9 +15,9 @@ export default function ClientNavigation() {
         </span>
       </Link>
 
-      <Link href={"/bai-viet"}>
+      <Link href={"/hoi-dap"}>
         <span className="text-sm font-semibold leading-6 text-gray-900">
-          Bài viết
+          Hỏi đáp
         </span>
       </Link>
 

@@ -1,3 +1,4 @@
+import EdiableJs from "@/components/editable-js"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
@@ -16,7 +17,7 @@ interface CommentItemProps extends Comment {
 }
 
 export default function CommentItem(props: CommentItemProps) {
-  const { author, content, createdAt, isHaveActions, onDelete, onEdit } = props
+  const { author, content, createdAt, isHaveActions, onDelete } = props
 
   return (
     <article className="p-6 text-base bg-white rounded-lg dark:bg-gray-900">
@@ -47,7 +48,7 @@ export default function CommentItem(props: CommentItemProps) {
         )}
       </footer>
 
-      <p className="text-gray-500 dark:text-gray-400">{content}</p>
+      <EdiableJs preview initialValue={content ?? ""} />
     </article>
   )
 }

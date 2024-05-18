@@ -17,7 +17,6 @@ import withPageRequiredAuth from "@/services/auth/with-page-required-auth"
 import { RoleEnum } from "@/services/api/types/role"
 import { useFileUploadService } from "@/services/api/services/files"
 
-import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 import {
@@ -27,10 +26,6 @@ import {
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { toast } from "sonner"
 import EdiableJs from "@/components/editable-js"
-
-const CkEditor = dynamic(() => import("@/components/ck-editor/editor"), {
-  ssr: false,
-})
 
 const FormSchema = z.object({
   title: z.string().min(10, "Tiêu đề phải tối thiểu 10 ký tự!"),
@@ -115,7 +110,7 @@ function EditBlog() {
         setValue("content", data.content)
       }
     })
-  }, [params.slug])
+  }, [params.slug, fetchBlog, setValue])
 
   return (
     <Form {...form}>

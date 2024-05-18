@@ -2,7 +2,6 @@
 import { useRouter } from "next/navigation"
 import useAuth from "./use-auth"
 import React, { FunctionComponent, useEffect } from "react"
-import useLanguage from "../i18n/use-language"
 import { RoleEnum } from "../api/types/role"
 
 type PropsType = {

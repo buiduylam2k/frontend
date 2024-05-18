@@ -2,10 +2,7 @@
 import useAuth from "@/services/auth/use-auth"
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth"
 
-import { Edit } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import Link from "@/components/link"
-import { Button } from "@/components/ui/button"
 
 function Profile() {
   const { user } = useAuth()
@@ -21,12 +18,6 @@ function Profile() {
         </Avatar>
         <div>
           <h3 className="text-2xl font-semibold tracking-tight">{fullName}</h3>
-          {/* <Button variant={"link"} asChild>
-            <Link href={"/trang-ca-nhan/chinh-sua"}>
-              <Edit className="mr-2 h-4 w-4" />
-              Chỉnh sửa
-            </Link>
-          </Button> */}
         </div>
       </div>
     </div>

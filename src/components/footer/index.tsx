@@ -25,7 +25,7 @@ export default function Footer() {
               <Link href="/blogs">Blogs</Link>
             </li>
             <li className="hover:underline me-4 md:me-6">
-              <Link href="/bai-viet">Bài viết</Link>
+              <Link href="/hoi-dap">Hỏi đáp</Link>
             </li>
             <li className="hover:underline me-4 md:me-6">
               <Link href="/#">Chính sách</Link>

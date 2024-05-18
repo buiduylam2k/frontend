@@ -2,7 +2,7 @@ import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 import { createQueryKeys } from "@/services/react-query/query-key-factory"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useGetPostsService } from "@/services/api/services/post"
-import { PostFilterType } from "../../quan-tri/bai-viet/post-filter-types"
+import { PostFilterType } from "../../quan-tri/hoi-dap/post-filter-types"
 
 export const postsQueryKeys = createQueryKeys(["posts"], {
   details: (id: string) => ({
@@ -23,18 +23,17 @@ interface IUsePostListQuery {
   limit?: number
 }
 
-export const usePostListQuery = ({ filter, limit }: IUsePostListQuery = {}) => {
+export const usePostListQuery = ({ limit }: IUsePostListQuery = {}) => {
   const fetch = useGetPostsService()
 
   const query = useInfiniteQuery({
-    queryKey: postsQueryKeys.list().sub.by({ filter }).key,
+    queryKey: postsQueryKeys.list().key,
     initialPageParam: 1,
     queryFn: async ({ pageParam, signal }) => {
       const { status, data } = await fetch(
         {
           page: pageParam,
           limit: limit ?? 10,
-          filters: filter,
         },
         {
           signal,

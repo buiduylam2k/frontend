@@ -8,7 +8,6 @@ import {
   SheetFooter,
   SheetTrigger,
 } from "../ui/sheet"
-import { useTranslation } from "@/services/i18n/client"
 import Link from "../link"
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
@@ -21,8 +20,6 @@ interface IMobileMenu {
 
 export default function MobileMenu(props: IMobileMenu) {
   const { logOut, user } = props
-
-  const { t } = useTranslation("common")
 
   return (
     <div className="flex md:hidden">

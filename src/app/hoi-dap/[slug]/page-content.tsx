@@ -16,6 +16,13 @@ import { postsQueryKeys } from "../queries/posts-queries"
 import formatDateRelativeToNow from "@/services/helpers/format-date-relative-to-now"
 import useAuth from "@/services/auth/use-auth"
 import EdiableJs from "@/components/editable-js"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import { RoleEnum } from "@/services/api/types/role"
 
 type Props = {
   params: { language: string; slug: string }
@@ -59,6 +66,8 @@ export default function PostDetail({ params }: Props) {
     }
   }
 
+  const isAdmin = user?.role?.id === RoleEnum.ADMIN
+
   return (
     <CommonTemplate>
       <div className="mt-10">
@@ -95,22 +104,33 @@ export default function PostDetail({ params }: Props) {
 
         {/* COMMENTS */}
         <div className="mt-4">
-          <h4 className="text-lg font-semibold">
-            Bình luận {commentLen ? `(${commentLen})` : ""}
-          </h4>
+          {data?.id && isAdmin && (
+            <h4 className="text-lg font-semibold">
+              Giải đáp {commentLen ? `(${commentLen})` : ""}
+            </h4>
+          )}
 
           <div>
-            {!!user && data?.id && (
-              <CommentForm refresh={refetch} postId={data.id} />
+            {data?.id && isAdmin && (
+              <CommentForm refresh={refetch} slug={data.slug} />
             )}
-            {data?.comments.map((item) => (
-              <CommentItem
-                key={item.id}
-                isHaveActions={!!user && item.author.id === user?.id}
-                onDelete={() => handleDeleteComment(item.id)}
-                {...item}
-              />
-            ))}
+            {!!data?.comments?.length && (
+              <Accordion type="single" collapsible>
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Giải đáp</AccordionTrigger>
+                  <AccordionContent>
+                    {data?.comments.map((item) => (
+                      <CommentItem
+                        key={item.id}
+                        isHaveActions={!!user && item.author.id === user?.id}
+                        onDelete={() => handleDeleteComment(item.id)}
+                        {...item}
+                      />
+                    ))}
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            )}
           </div>
         </div>
       </div>

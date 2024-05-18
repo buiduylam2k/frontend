@@ -17,13 +17,9 @@ import withPageRequiredAuth from "@/services/auth/with-page-required-auth"
 import { RoleEnum } from "@/services/api/types/role"
 import { useFileUploadService } from "@/services/api/services/files"
 
-import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
-import {
-  useGetBlogService,
-  usePatchBlogService,
-} from "@/services/api/services/blog"
+
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { toast } from "sonner"
 import EdiableJs from "@/components/editable-js"
@@ -102,7 +98,7 @@ function EditPost() {
         description: "Cập nhật bài viết thành công!",
       })
 
-      router.replace("/quan-tri/bai-viet")
+      router.replace("/quan-tri/hoi-dap")
     }
   }
 
@@ -115,7 +111,7 @@ function EditPost() {
         setValue("content", data.content)
       }
     })
-  }, [params.slug])
+  }, [params.slug, fetchPost, setValue])
 
   return (
     <Form {...form}>

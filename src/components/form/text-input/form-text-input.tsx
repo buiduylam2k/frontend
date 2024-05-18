@@ -12,8 +12,6 @@ import {
   FieldValues,
 } from "react-hook-form"
 import { InputBaseComponentProps } from "@mui/material/InputBase/InputBase"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 
 type TextInputProps = {
   label: string

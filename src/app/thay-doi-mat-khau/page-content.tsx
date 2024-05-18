@@ -108,7 +108,7 @@ function PasswordChange() {
     const hash = params.get("hash")
     if (!hash) return
 
-    const { data, status } = await fetchAuthResetPassword({
+    const { status } = await fetchAuthResetPassword({
       password: formData.password,
       hash,
     })

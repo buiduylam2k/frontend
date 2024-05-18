@@ -1,7 +1,7 @@
 "use client"
 import { useMemo } from "react"
 import PostCard from "../post-card"
-import { usePostListQuery } from "@/app/bai-viet/queries/posts-queries"
+import { usePostListQuery } from "@/app/hoi-dap/queries/posts-queries"
 import removeDuplicatesFromArrayObjects from "@/services/helpers/remove-duplicates-from-array-of-objects"
 import { Post } from "@/services/api/types/post"
 

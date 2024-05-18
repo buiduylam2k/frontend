@@ -42,7 +42,7 @@ export default function ConfirmEmail() {
     }
 
     confirm()
-  }, [fetchConfirmEmail, router])
+  }, [fetchConfirmEmail, router, toast])
 
   return (
     <div className="flex flex-1 mt-28 items-center justify-center text-center">

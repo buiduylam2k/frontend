@@ -21,7 +21,7 @@ import useFetchBase from "@/services/api/use-fetch-base"
 import { AUTH_LOGOUT_URL, AUTH_ME_URL } from "@/services/api/config"
 import HTTP_CODES_ENUM from "../api/types/http-codes"
 
-function AuthProvider(props: PropsWithChildren<{}>) {
+function AuthProvider({ children }: PropsWithChildren<{}>) {
   const AUTH_TOKEN_KEY = "auth-token-data"
 
   const [isLoaded, setIsLoaded] = useState(false)
@@ -142,7 +142,7 @@ function AuthProvider(props: PropsWithChildren<{}>) {
     <AuthContext.Provider value={contextValue}>
       <AuthActionsContext.Provider value={contextActionsValue}>
         <AuthTokensContext.Provider value={contextTokensValue}>
-          {props.children}
+          {children}
         </AuthTokensContext.Provider>
       </AuthActionsContext.Provider>
     </AuthContext.Provider>

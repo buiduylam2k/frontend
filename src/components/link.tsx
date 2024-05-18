@@ -1,7 +1,7 @@
 // Need for leave page logic
 // eslint-disable-next-line no-restricted-imports
 import NextLink, { LinkProps } from "next/link"
-import { PropsWithChildren, forwardRef, useContext } from "react"
+import { PropsWithChildren, forwardRef } from "react"
 
 const Link = forwardRef<HTMLAnchorElement, LinkProps & PropsWithChildren>(
   function Link(props, ref) {

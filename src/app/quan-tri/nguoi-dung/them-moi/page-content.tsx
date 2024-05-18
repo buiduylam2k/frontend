@@ -215,7 +215,11 @@ function CreateUser() {
                   </FormControl>
                   <SelectContent>
                     {[RoleEnum.ADMIN, RoleEnum.USER].map((r) => (
-                      <SelectItem value={r.toString()} className="capitalize">
+                      <SelectItem
+                        value={r.toString()}
+                        key={r}
+                        className="capitalize"
+                      >
                         {getRoleName(r)}
                       </SelectItem>
                     ))}

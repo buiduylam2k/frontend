@@ -18,9 +18,9 @@ export default function AdminNavigation() {
           Blogs
         </span>
       </Link>
-      <Link href={"/quan-tri/bai-viet"}>
+      <Link href={"/quan-tri/hoi-dap"}>
         <span className="text-sm font-semibold leading-6 text-gray-900">
-          Bài viết
+          Hỏi đáp
         </span>
       </Link>
       <Link href={"/quan-tri/aff-link"}>

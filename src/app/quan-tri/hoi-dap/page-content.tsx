@@ -49,9 +49,9 @@ import { toast } from "sonner"
 import { PostFilterType } from "./post-filter-types"
 import { useDeletePostService } from "@/services/api/services/post"
 import { Post } from "@/services/api/types/post"
-import { usePostListQuery } from "../../bai-viet/queries/posts-queries"
 import getPostUrl from "@/services/helpers/get-post-url"
 import EdiableJs from "@/components/editable-js"
+import { usePostListQuery } from "@/app/hoi-dap/queries/posts-queries"
 
 const getColumnName = (key: string) => {
   const map: Record<string, string> = {
@@ -206,8 +206,10 @@ function Posts() {
 
         const goToEdit = () =>
           router.push(
-            `/quan-tri/bai-viet/chinh-sua/${post.slug}?title=${post.title}`
+            `/quan-tri/hoi-dap/chinh-sua/${post.slug}?title=${post.title}`
           )
+        const goToView = () =>
+          router.push(`/hoi-dap/${post.slug}?title=${post.title}`)
 
         return (
           <DropdownMenu>
@@ -229,6 +231,10 @@ function Posts() {
                 }}
               >
                 Sao chép đường dẫn
+              </DropdownMenuItem>
+
+              <DropdownMenuItem onClick={goToView}>
+                Xem bài viết
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={goToEdit}>Chỉnh sửa</DropdownMenuItem>
@@ -278,7 +284,7 @@ function Posts() {
         />
         <DataTableViewOptions table={table} mapperName={getColumnName} />
 
-        <Link href={"/quan-tri/bai-viet/them-moi"}>
+        <Link href={"/quan-tri/hoi-dap/them-moi"}>
           <Button>
             <Plus className="mr-2 h-4 w-4" /> Thêm mới
           </Button>

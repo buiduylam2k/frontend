@@ -17,17 +17,12 @@ import withPageRequiredAuth from "@/services/auth/with-page-required-auth"
 import { RoleEnum } from "@/services/api/types/role"
 import { useFileUploadService } from "@/services/api/services/files"
 
-import dynamic from "next/dynamic"
 import { useState } from "react"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { useCreatePostService } from "@/services/api/services/post"
 import EdiableJs from "@/components/editable-js"
-
-const CkEditor = dynamic(() => import("@/components/ck-editor/editor"), {
-  ssr: false,
-})
 
 const FormSchema = z.object({
   title: z.string().min(10, "Tiêu đề phải tối thiểu 10 ký tự!"),
@@ -92,7 +87,7 @@ function CreateBlog() {
         description: "Tạo bài viết thành công!",
       })
 
-      router.replace("/quan-tri/bai-viet")
+      router.replace("/quan-tri/hoi-dap")
     }
   }
 
