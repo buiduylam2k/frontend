@@ -27,7 +27,6 @@ function withPageRequiredAuth(
   return function WithPageRequiredAuth(props: PropsType) {
     const { user, isLoaded } = useAuth()
     const router = useRouter()
-    const language = useLanguage()
 
     useEffect(() => {
       const check = () => {
@@ -39,23 +38,22 @@ function withPageRequiredAuth(
 
         const currentLocation = window.location.toString()
         const returnToPath =
-          currentLocation.replace(new URL(currentLocation).origin, "") ||
-          `/${language}`
+          currentLocation.replace(new URL(currentLocation).origin, "") || "/"
         const params = new URLSearchParams({
           returnTo: returnToPath,
         })
 
-        let redirectTo = `/${language}/dang-nhap?${params.toString()}`
+        let redirectTo = `/dang-nhap?${params.toString()}`
 
         if (user) {
-          redirectTo = `/${language}`
+          redirectTo = `/`
         }
 
         router.replace(redirectTo)
       }
 
       check()
-    }, [user, isLoaded, router, language])
+    }, [user, isLoaded, router])
 
     return user && user?.role?.id && optionRoles.includes(user?.role.id) ? (
       <Component {...props} />

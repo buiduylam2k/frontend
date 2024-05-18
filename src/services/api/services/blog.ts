@@ -136,11 +136,11 @@ export function useAddViewBlogService() {
   const fetch = useFetch()
 
   return useCallback(
-    (data: BlogsDeleteRequest, requestConfig?: RequestConfigType) => {
+    (data: BlogAddViewRequest, requestConfig?: RequestConfigType) => {
       return fetch(`${BLOGS_URL}/${data.slug}/add-view`, {
         method: "PATCH",
         ...requestConfig,
-      }).then(wrapperFetchJsonResponse<BlogsDeleteResponse>)
+      }).then(wrapperFetchJsonResponse<BlogAddViewResponse>)
     },
     [fetch]
   )

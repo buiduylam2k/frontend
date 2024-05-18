@@ -23,9 +23,9 @@ export default function AdminNavigation() {
           Bài viết
         </span>
       </Link>
-      <Link href={"/quan-tri/cau-hinh"}>
+      <Link href={"/quan-tri/aff-link"}>
         <span className="text-sm font-semibold leading-6 text-gray-900">
-          Cấu hình
+          Aff link
         </span>
       </Link>
     </div>

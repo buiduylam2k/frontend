@@ -9,6 +9,7 @@ export type Post = {
   content: string
   views: number
   slug: string
+  banner: string
 
   author: User
   tags: Tag[]

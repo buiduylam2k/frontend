@@ -71,8 +71,6 @@ import { withHTMLSerializerTransform } from "@editablejs/plugins/serializer/html
 import { withTextSerializerTransform } from "@editablejs/plugins/serializer/text"
 import { withHTMLDeserializerTransform } from "@editablejs/plugins/deserializer/html"
 
-import { HTMLSerializer } from "@editablejs/serializer/html"
-
 import { createContextMenuItems } from "./context-menu-items"
 import { createInlineToolbarItems } from "./inline-toolbar-items"
 import { createSideToolbarItems } from "./side-toolbar-items"
@@ -104,7 +102,6 @@ export default function EdiableJs(props: EdiableJsProps) {
   const [connected, setConnected] = React.useState(false)
   const [connecting, setConnection] = React.useState(false)
   const [enableCollaborative, setEnableCollaborative] = React.useState(false)
-  const [content, setContent] = React.useState<any>()
 
   const document = React.useMemo(() => new Y.Doc(), [])
 
@@ -274,6 +271,10 @@ export default function EdiableJs(props: EdiableJsProps) {
     [editor, onChange]
   )
 
+  const _value = React.useMemo(() => {
+    return initialValue ? JSON.parse(initialValue) : []
+  }, [initialValue])
+
   if (preview) {
     return <Preview initialValue={initialValue} editor={editor} />
   }
@@ -289,7 +290,7 @@ export default function EdiableJs(props: EdiableJsProps) {
           <Content
             provider={{
               editor,
-              value: content,
+              value: _value,
               onChange: handleOnChange,
             }}
             content={{
@@ -326,7 +327,7 @@ export default function EdiableJs(props: EdiableJsProps) {
           <Content
             provider={{
               editor,
-              value: content,
+              value: _value,
             }}
             content={{
               readOnly: true,

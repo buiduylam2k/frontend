@@ -16,7 +16,7 @@ export default function Preview(props: PreviewProps) {
     return blocks
       .map((b) => HTMLSerializer.transformWithEditor(editor, b))
       .join("")
-  }, [])
+  }, [initialValue, editor])
 
   return (
     <div

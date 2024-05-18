@@ -7,6 +7,7 @@ import { Post } from "@/services/api/types/post"
 import formatDate from "@/services/helpers/format-date"
 import UserHoverCard from "../user-hover-card"
 import formatDateRelativeToNow from "@/services/helpers/format-date-relative-to-now"
+import EdiableJs from "../editable-js"
 
 interface IPostCard extends Post {}
 
@@ -17,7 +18,7 @@ export default function PostCard(props: IPostCard) {
 
   return (
     <Link key={id} href={`/bai-viet/${slug}`}>
-      <div className="cursor-pointer">
+      <div className="cursor-pointer border-b pb-4">
         <div className="flex items-start space-x-3">
           <UserHoverCard user={author}>
             <Avatar>
@@ -36,7 +37,9 @@ export default function PostCard(props: IPostCard) {
             </div>
           </div>
         </div>
-        <div className="mt-2">{content}</div>
+        <div className="mt-4 line-clamp-3">
+          <EdiableJs preview initialValue={content} />
+        </div>
       </div>
     </Link>
   )

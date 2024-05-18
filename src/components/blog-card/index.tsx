@@ -29,8 +29,10 @@ export default function BlogCard(props: IBlogCard) {
             src={getImagePath(banner)}
             alt={title?.slice(0, 10) ?? "blog card"}
             width={300}
-            height={200}
+            height={150}
+            priority
           />
+
           <span className="font-semibold text-purple-600">
             {formatDate(createdAt)}
           </span>

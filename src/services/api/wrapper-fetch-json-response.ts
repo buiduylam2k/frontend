@@ -1,10 +1,15 @@
-import { FetchJsonResponse } from "./types/fetch-json-response";
-import HTTP_CODES_ENUM from "./types/http-codes";
+import { FetchJsonResponse } from "./types/fetch-json-response"
+import HTTP_CODES_ENUM from "./types/http-codes"
 
 async function wrapperFetchJsonResponse<T>(
   response: Response
 ): Promise<FetchJsonResponse<T>> {
-  const status = response.status as FetchJsonResponse<T>["status"];
+  const status = response.status as FetchJsonResponse<T>["status"]
+  let r = null
+  try {
+    r = await response.json()
+  } catch (error) {}
+
   return {
     status,
     data: [
@@ -12,9 +17,9 @@ async function wrapperFetchJsonResponse<T>(
       HTTP_CODES_ENUM.SERVICE_UNAVAILABLE,
       HTTP_CODES_ENUM.INTERNAL_SERVER_ERROR,
     ].includes(status)
-      ? undefined
-      : await response.json(),
-  };
+      ? await response.json()
+      : r,
+  }
 }
 
-export default wrapperFetchJsonResponse;
+export default wrapperFetchJsonResponse

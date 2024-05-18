@@ -39,16 +39,16 @@ export default function MobileMenu(props: IMobileMenu) {
               asChild
               className="text-base font-semibold text-left"
             >
-              <Link href={"/"}>{t("common:navigation.home")}</Link>
+              <Link href={"/"}>Trang chủ</Link>
             </Button>
             <Button variant={"ghost"} asChild className="text-base">
-              <Link href={"/blog"}>{t("common:navigation.blogs")}</Link>
+              <Link href={"/blog"}>Blogs</Link>
             </Button>
             <Button variant={"ghost"} asChild className="text-base">
-              <Link href={"/post"}>{t("common:navigation.posts")}</Link>
+              <Link href={"/post"}>Bài viết</Link>
             </Button>
             <Button variant={"ghost"} asChild className="text-base">
-              <Link href={"/lien-he"}>{t("common:navigation.contact")}</Link>
+              <Link href={"/lien-he"}>Liên hệ</Link>
             </Button>
           </div>
 
@@ -80,11 +80,11 @@ export default function MobileMenu(props: IMobileMenu) {
             ) : (
               <div className="flex-1 flex gap-4">
                 <Button asChild className="w-full">
-                  <Link href="/dang-nhap">{t("common:navigation.signIn")}</Link>
+                  <Link href="/dang-nhap">Đăng nhập</Link>
                 </Button>
 
                 <Button className="w-full" variant="secondary">
-                  <Link href="/dang-ky">{t("common:navigation.signUp")}</Link>
+                  <Link href="/dang-ky">Đăng ký</Link>
                 </Button>
               </div>
             )}

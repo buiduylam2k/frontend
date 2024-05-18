@@ -85,7 +85,7 @@ export function useCreatePostService() {
 }
 
 export type PostPatchRequest = {
-  id: Post["id"]
+  slug: Post["slug"]
   data: Partial<Pick<Post, "content">>
 }
 
@@ -96,7 +96,7 @@ export function usePatchPostService() {
 
   return useCallback(
     (data: PostPatchRequest, requestConfig?: RequestConfigType) => {
-      return fetch(POSTS_URL, {
+      return fetch(`${POSTS_URL}/${data.slug}`, {
         method: "PATCH",
         body: JSON.stringify(data.data),
         ...requestConfig,

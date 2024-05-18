@@ -4,7 +4,7 @@ import { useGetBlogsService } from "@/services/api/services/blog"
 import { useQuery } from "@tanstack/react-query"
 import { SortEnum } from "@/services/api/types/sort-type"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
-import { blogsQueryKeys } from "@/app/[language]/blogs/queries/blogs-queries"
+import { blogsQueryKeys } from "@/app/blogs/queries/blogs-queries"
 
 export default function NewBlogs() {
   const fetchGetBlogs = useGetBlogsService()

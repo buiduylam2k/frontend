@@ -1,7 +1,7 @@
-"use client";
+"use client"
 
-import { Tokens } from "@/services/api/types/tokens";
-import { User } from "@/services/api/types/user";
+import { Tokens } from "@/services/api/types/tokens"
+import { User } from "@/services/api/types/user"
 import {
   PropsWithChildren,
   useCallback,
@@ -9,50 +9,52 @@ import {
   useMemo,
   useRef,
   useState,
-} from "react";
+} from "react"
 import {
   AuthActionsContext,
   AuthContext,
   AuthTokensContext,
   TokensInfo,
-} from "./auth-context";
-import Cookies from "js-cookie";
-import useFetchBase from "@/services/api/use-fetch-base";
-import { AUTH_LOGOUT_URL, AUTH_ME_URL } from "@/services/api/config";
-import HTTP_CODES_ENUM from "../api/types/http-codes";
+} from "./auth-context"
+import Cookies from "js-cookie"
+import useFetchBase from "@/services/api/use-fetch-base"
+import { AUTH_LOGOUT_URL, AUTH_ME_URL } from "@/services/api/config"
+import HTTP_CODES_ENUM from "../api/types/http-codes"
 
 function AuthProvider(props: PropsWithChildren<{}>) {
-  const AUTH_TOKEN_KEY = "auth-token-data";
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
+  const AUTH_TOKEN_KEY = "auth-token-data"
+
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
+
   const tokensInfoRef = useRef<Tokens>({
     token: null,
     refreshToken: null,
     tokenExpires: null,
-  });
-  const fetchBase = useFetchBase();
+  })
+  const fetchBase = useFetchBase()
 
   const setTokensInfoRef = useCallback((tokens: TokensInfo) => {
     tokensInfoRef.current = tokens ?? {
       token: null,
       refreshToken: null,
       tokenExpires: null,
-    };
-  }, []);
+    }
+  }, [])
 
   const setTokensInfo = useCallback(
     (tokensInfo: TokensInfo) => {
-      setTokensInfoRef(tokensInfo);
+      setTokensInfoRef(tokensInfo)
 
       if (tokensInfo) {
-        Cookies.set(AUTH_TOKEN_KEY, JSON.stringify(tokensInfo));
+        Cookies.set(AUTH_TOKEN_KEY, JSON.stringify(tokensInfo))
       } else {
-        Cookies.remove(AUTH_TOKEN_KEY);
-        setUser(null);
+        Cookies.remove(AUTH_TOKEN_KEY)
+        setUser(null)
       }
     },
     [setTokensInfoRef]
-  );
+  )
 
   const logOut = useCallback(async () => {
     if (tokensInfoRef.current.token) {
@@ -66,17 +68,17 @@ function AuthProvider(props: PropsWithChildren<{}>) {
           refreshToken: tokensInfoRef.current.refreshToken,
           tokenExpires: tokensInfoRef.current.tokenExpires,
         }
-      );
+      )
     }
-    setTokensInfo(null);
-  }, [setTokensInfo, fetchBase]);
+    setTokensInfo(null)
+  }, [setTokensInfo, fetchBase])
 
   const loadData = useCallback(async () => {
     const tokens = JSON.parse(
       Cookies.get(AUTH_TOKEN_KEY) ?? "null"
-    ) as TokensInfo;
+    ) as TokensInfo
 
-    setTokensInfoRef(tokens);
+    setTokensInfoRef(tokens)
 
     try {
       if (tokens?.token) {
@@ -91,26 +93,26 @@ function AuthProvider(props: PropsWithChildren<{}>) {
             tokenExpires: tokens.tokenExpires,
             setTokensInfo,
           }
-        );
+        )
 
         if (response.status === HTTP_CODES_ENUM.UNAUTHORIZED) {
-          logOut();
-          return;
+          logOut()
+          return
         }
 
-        const data = await response.json();
-        setUser(data);
+        const data = await response.json()
+        setUser(data)
       }
     } catch {
-      logOut();
+      logOut()
     } finally {
-      setIsLoaded(true);
+      setIsLoaded(true)
     }
-  }, [fetchBase, logOut, setTokensInfoRef, setTokensInfo]);
+  }, [fetchBase, logOut, setTokensInfoRef, setTokensInfo])
 
   useEffect(() => {
-    loadData();
-  }, [loadData]);
+    loadData()
+  }, [loadData])
 
   const contextValue = useMemo(
     () => ({
@@ -118,7 +120,7 @@ function AuthProvider(props: PropsWithChildren<{}>) {
       user,
     }),
     [isLoaded, user]
-  );
+  )
 
   const contextActionsValue = useMemo(
     () => ({
@@ -126,7 +128,7 @@ function AuthProvider(props: PropsWithChildren<{}>) {
       logOut,
     }),
     [logOut]
-  );
+  )
 
   const contextTokensValue = useMemo(
     () => ({
@@ -134,7 +136,7 @@ function AuthProvider(props: PropsWithChildren<{}>) {
       setTokensInfo,
     }),
     [setTokensInfo]
-  );
+  )
 
   return (
     <AuthContext.Provider value={contextValue}>
@@ -144,7 +146,7 @@ function AuthProvider(props: PropsWithChildren<{}>) {
         </AuthTokensContext.Provider>
       </AuthActionsContext.Provider>
     </AuthContext.Provider>
-  );
+  )
 }
 
-export default AuthProvider;
+export default AuthProvider

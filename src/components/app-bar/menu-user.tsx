@@ -10,7 +10,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
 import { Button } from "../ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import Link from "../link"
-import { useTranslation } from "@/services/i18n/client"
 import MobileMenu from "./mobile-menu"
 import { User } from "@/services/api/types/user"
 
@@ -21,8 +20,6 @@ interface IMenuUser {
 
 export default function MenuUser(props: IMenuUser) {
   const { logOut, user } = props
-
-  const { t } = useTranslation("common")
 
   return (
     <div className="flex items-center gap-4">
@@ -46,7 +43,7 @@ export default function MenuUser(props: IMenuUser) {
                 </TooltipTrigger>
 
                 <TooltipContent>
-                  <p>Menu Profile</p>
+                  <p>Trang cá nhân</p>
                 </TooltipContent>
               </Tooltip>
             </DropdownMenuTrigger>
@@ -57,13 +54,11 @@ export default function MenuUser(props: IMenuUser) {
               <DropdownMenuSeparator />
 
               <DropdownMenuItem className="cursor-pointer" asChild>
-                <Link href="/trang-ca-nhan">
-                  {t("common:navigation.profile")}
-                </Link>
+                <Link href="/trang-ca-nhan">Trang cá nhân</Link>
               </DropdownMenuItem>
 
               <DropdownMenuItem onClick={logOut} className="cursor-pointer">
-                {t("common:navigation.logout")}
+                Đăng xuất
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -71,11 +66,11 @@ export default function MenuUser(props: IMenuUser) {
       ) : (
         <div className="grow-0 hidden md:flex gap-4">
           <Button asChild>
-            <Link href="/dang-nhap">{t("common:navigation.signIn")}</Link>
+            <Link href="/dang-nhap">Đăng nhập</Link>
           </Button>
 
           <Button variant="secondary">
-            <Link href="/dang-ky">{t("common:navigation.signUp")}</Link>
+            <Link href="/dang-ky">Đăng ký</Link>
           </Button>
         </div>
       )}
