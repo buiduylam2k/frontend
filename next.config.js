@@ -3,6 +3,7 @@ const nextConfig = {
   eslint: {
     dirs: ["src", "cypress/e2e"],
   },
+  output: "standalone",
   reactStrictMode: false,
   images: {
     remotePatterns: [

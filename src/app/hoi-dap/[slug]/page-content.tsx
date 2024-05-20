@@ -122,7 +122,9 @@ export default function PostDetail({ params }: Props) {
                     {data?.comments.map((item) => (
                       <CommentItem
                         key={item.id}
-                        isHaveActions={!!user && item.author.id === user?.id}
+                        isHaveActions={
+                          !!user && user?.role?.id === RoleEnum.ADMIN
+                        }
                         onDelete={() => handleDeleteComment(item.id)}
                         {...item}
                       />
