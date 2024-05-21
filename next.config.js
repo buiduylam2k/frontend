@@ -19,6 +19,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "flowbite.com",
       },
+      {
+        protocol: "https",
+        hostname: "cossin.vn",
+      },
     ],
   },
 }
