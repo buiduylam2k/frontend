@@ -319,7 +319,7 @@ function Posts() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Không có bài viết nào.
+                  Không có link nào.
                 </TableCell>
               </TableRow>
             )}

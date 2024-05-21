@@ -79,7 +79,14 @@ import Image from "next/image"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import Preview from "./preview"
 import Content from "./content"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from "react"
 
 declare global {
   namespace NodeJS {
@@ -96,7 +103,14 @@ interface EdiableJsProps {
   placeholder?: string
 }
 
-export default function EdiableJs(props: EdiableJsProps) {
+export interface EditableJsRef {
+  deleteContent: () => void
+}
+
+export default forwardRef<EditableJsRef, EdiableJsProps>(function EditableJs(
+  props: EdiableJsProps,
+  ref
+) {
   const { initialValue, onChange, preview, placeholder } = props
 
   const [connected, setConnected] = useState(false)
@@ -271,6 +285,25 @@ export default function EdiableJs(props: EdiableJsProps) {
     [editor, onChange]
   )
 
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        deleteContent() {
+          console.log("hixx")
+
+          Transforms.delete(editor, {
+            at: {
+              anchor: Editor.start(editor, []),
+              focus: Editor.end(editor, []),
+            },
+          })
+        },
+      }
+    },
+    [editor]
+  )
+
   const _value = useMemo(() => {
     return initialValue ? JSON.parse(initialValue) : undefined
   }, [initialValue])
@@ -338,4 +371,4 @@ export default function EdiableJs(props: EdiableJsProps) {
       </Tabs>
     </div>
   )
-}
+})

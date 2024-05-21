@@ -201,6 +201,9 @@ function Blogs() {
             `/quan-tri/blogs/chinh-sua/${blog.slug}?title=${blog.title}`
           )
 
+        const goToView = () =>
+          router.push(`/blogs/${blog.slug}?title=${blog.title}`)
+
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -221,6 +224,10 @@ function Blogs() {
                 }}
               >
                 Sao chép đường dẫn
+              </DropdownMenuItem>
+
+              <DropdownMenuItem onClick={goToView}>
+                Xem bài blog
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={goToEdit}>Chỉnh sửa</DropdownMenuItem>

@@ -1,4 +1,4 @@
-import EdiableJs from "@/components/editable-js"
+import EdiableJs, { EditableJsRef } from "@/components/editable-js"
 import { Button } from "@/components/ui/button"
 import {
   FormControl,
@@ -7,10 +7,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-// import { Textarea } from "@/components/ui/textarea"
 import { useAddCommentPostService } from "@/services/api/services/post"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { useRef } from "react"
 import { FormProvider, useForm, useFormState } from "react-hook-form"
 import * as yup from "yup"
 
@@ -42,6 +42,7 @@ interface ICommentFormProps {
 export default function CommentForm(props: ICommentFormProps) {
   const { slug, refresh } = props
   const validationSchema = useValidationSchema()
+  const editorRef = useRef<EditableJsRef>(null)
 
   const addComment = useAddCommentPostService()
 
@@ -64,6 +65,7 @@ export default function CommentForm(props: ICommentFormProps) {
       reset({
         content: "",
       })
+      editorRef.current?.deleteContent()
       refresh()
     }
   }
@@ -80,6 +82,7 @@ export default function CommentForm(props: ICommentFormProps) {
                 <FormLabel className="sr-only">Comment của bạn</FormLabel>
                 <FormControl>
                   <EdiableJs
+                    ref={editorRef}
                     initialValue={field.value}
                     onChange={field.onChange}
                     placeholder="Thêm bình luận..."

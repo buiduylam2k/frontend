@@ -239,7 +239,7 @@ function Posts() {
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={goToEdit}>Chỉnh sửa</DropdownMenuItem>
               <DropdownMenuItem onClick={deleteAction}>
-                Xoá post
+                Xoá hỏi đáp
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -270,7 +270,7 @@ function Posts() {
   return (
     <div className="container mx-auto py-10">
       <h2 className="pb-4 text-3xl font-semibold tracking-tight">
-        Danh sách bài viết
+        Danh sách hỏi đáp
       </h2>
 
       <div className="flex items-center py-4 gap-4">
@@ -334,7 +334,7 @@ function Posts() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Không có bài viết nào.
+                  Không có bài hỏi đáp nào.
                 </TableCell>
               </TableRow>
             )}

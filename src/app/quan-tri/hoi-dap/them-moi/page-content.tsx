@@ -84,7 +84,7 @@ function CreateBlog() {
       // nếu lỗi cần xoá ảnh đi
     } else {
       toast.success("Thành công", {
-        description: "Tạo bài viết thành công!",
+        description: "Tạo hỏi đáp thành công!",
       })
 
       router.replace("/quan-tri/hoi-dap")
@@ -97,7 +97,7 @@ function CreateBlog() {
         <div className="px-4 sm:px-10 m-auto space-y-4 py-10">
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
-              Thêm mới bài viết
+              Thêm mới bài hỏi đáp
             </h1>
           </div>
 
@@ -108,7 +108,7 @@ function CreateBlog() {
               <FormItem>
                 <FormLabel>Tiêu đề</FormLabel>
                 <FormControl>
-                  <Input placeholder={"Tiêu đề bài viết"} {...field} />
+                  <Input placeholder={"Tiêu đề hỏi đáp"} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -123,7 +123,7 @@ function CreateBlog() {
                 <FormLabel>Hình ảnh</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder={"Hình ảnh blog"}
+                    placeholder={"Hình ảnh hỏi đáp"}
                     type="file"
                     accept=".png"
                     {...field}
@@ -148,7 +148,7 @@ function CreateBlog() {
                   <EdiableJs
                     initialValue={field.value}
                     onChange={field.onChange}
-                    placeholder="Nội dung bài viết"
+                    placeholder="Nội dung hỏi đáp"
                   />
                 </FormControl>
                 <FormMessage />
