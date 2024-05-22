@@ -6,11 +6,12 @@ export const config = {
 }
 
 export function middleware(req: NextRequest) {
-  if (
-    req.nextUrl.pathname.indexOf("icon") > -1 ||
-    req.nextUrl.pathname.indexOf("chrome") > -1
-  ) {
-    return NextResponse.next()
+  if (req.nextUrl.pathname.startsWith("/_next/image")) {
+    return NextResponse.rewrite(
+      new URL(
+        `${process.env.NEXT_PUBLIC_URL || ""}${req.nextUrl.searchParams.get("url")}`
+      )
+    )
   }
 
   return NextResponse.next()
