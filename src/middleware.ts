@@ -6,6 +6,8 @@ export const config = {
 }
 
 export function middleware(req: NextRequest) {
+  console.log("middleware", req.nextUrl.pathname)
+
   if (req.nextUrl.pathname.startsWith("/_next/image")) {
     const url = `${process.env.NEXT_PUBLIC_URL || ""}${req.nextUrl.searchParams.get("url")}`
 
