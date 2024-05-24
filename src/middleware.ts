@@ -5,16 +5,6 @@ export const config = {
   matcher: ["/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js).*)"],
 }
 
-export function middleware(req: NextRequest) {
-  console.log("middleware", req.nextUrl.pathname)
-
-  if (req.nextUrl.pathname.startsWith("/_next/image")) {
-    const url = `${process.env.NEXT_PUBLIC_URL || ""}${req.nextUrl.searchParams.get("url")}`
-
-    console.log("====url", url)
-
-    return NextResponse.rewrite(new URL(url))
-  }
-
+export function middleware(_req: NextRequest) {
   return NextResponse.next()
 }

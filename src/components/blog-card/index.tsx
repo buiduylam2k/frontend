@@ -8,7 +8,6 @@ import {
 } from "../ui/card"
 
 import { Button } from "../ui/button"
-import Image from "next/image"
 import Tag from "../tag"
 import { ArrowUpRight } from "lucide-react"
 import { Blog } from "@/services/api/types/blog"
@@ -25,12 +24,11 @@ export default function BlogCard(props: IBlogCard) {
     <Link key={id} href={`/blogs/${slug}`}>
       <Card className="w-full">
         <CardHeader>
-          <Image
+          <img
             src={getImagePath(banner)}
             alt={title?.slice(0, 10) ?? "blog card"}
             width={300}
             height={150}
-            priority
           />
 
           <span className="font-semibold text-purple-600">
