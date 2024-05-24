@@ -7,11 +7,11 @@ export const config = {
 
 export function middleware(req: NextRequest) {
   if (req.nextUrl.pathname.startsWith("/_next/image")) {
-    return NextResponse.rewrite(
-      new URL(
-        `${process.env.NEXT_PUBLIC_URL || ""}${req.nextUrl.searchParams.get("url")}`
-      )
-    )
+    const url = `${process.env.NEXT_PUBLIC_URL || ""}${req.nextUrl.searchParams.get("url")}`
+
+    console.log("====url", url)
+
+    return NextResponse.rewrite(new URL(url))
   }
 
   return NextResponse.next()
