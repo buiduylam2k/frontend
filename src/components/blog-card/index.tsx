@@ -15,6 +15,7 @@ import formatDate from "@/services/helpers/format-date"
 import Link from "../link"
 import getImagePath from "@/services/helpers/get-image-path"
 import EdiableJs from "../editable-js"
+import Image from "next/image"
 
 interface IBlogCard extends Partial<Blog> {}
 
@@ -24,7 +25,7 @@ export default function BlogCard(props: IBlogCard) {
     <Link key={id} href={`/blogs/${slug}`}>
       <Card className="w-full">
         <CardHeader>
-          <img
+          <Image
             src={getImagePath(banner)}
             alt={title?.slice(0, 10) ?? "blog card"}
             width={300}
