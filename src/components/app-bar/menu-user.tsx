@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import Link from "../link"
 import MobileMenu from "./mobile-menu"
 import { User } from "@/services/api/types/user"
+import { getUserFullname } from "@/services/helpers/get-user-fullname"
 
 interface IMenuUser {
   user: User | null
@@ -33,7 +34,7 @@ export default function MenuUser(props: IMenuUser) {
                     <Avatar>
                       <AvatarImage
                         src={user.photo?.path}
-                        alt={user?.firstName + " " + user?.lastName}
+                        alt={getUserFullname(user)}
                       />
                       <AvatarFallback>
                         {user?.firstName?.slice(0, 1)}
@@ -48,9 +49,7 @@ export default function MenuUser(props: IMenuUser) {
               </Tooltip>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuLabel>
-                {user?.firstName + " " + user?.lastName}
-              </DropdownMenuLabel>
+              <DropdownMenuLabel>{getUserFullname(user)}</DropdownMenuLabel>
               <DropdownMenuSeparator />
 
               <DropdownMenuItem className="cursor-pointer" asChild>
@@ -65,12 +64,8 @@ export default function MenuUser(props: IMenuUser) {
         </div>
       ) : (
         <div className="grow-0 hidden md:flex gap-4">
-          <Button asChild>
-            <Link href="/dang-nhap">Đăng nhập</Link>
-          </Button>
-
           <Button variant="secondary">
-            <Link href="/dang-ky">Đăng ký</Link>
+            <Link href="/dang-nhap">Đăng nhập</Link>
           </Button>
         </div>
       )}

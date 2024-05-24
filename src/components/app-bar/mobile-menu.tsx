@@ -76,12 +76,8 @@ export default function MobileMenu(props: IMobileMenu) {
               </div>
             ) : (
               <div className="flex-1 flex gap-4">
-                <Button asChild className="w-full">
-                  <Link href="/dang-nhap">Đăng nhập</Link>
-                </Button>
-
                 <Button className="w-full" variant="secondary">
-                  <Link href="/dang-ky">Đăng ký</Link>
+                  <Link href="/dang-nhap">Đăng nhập</Link>
                 </Button>
               </div>
             )}

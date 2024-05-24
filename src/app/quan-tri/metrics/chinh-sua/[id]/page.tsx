@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
-import Settings from "./page-content"
+import EditAffLink from "./page-content"
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Cấu hình",
+    title: `Chỉnh sửa aff link`,
   }
 }
 
-export default Settings
+export default EditAffLink

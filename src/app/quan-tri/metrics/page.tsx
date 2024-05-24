@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
-import EditProfile from "./page-content"
+import Metrics from "./page-content"
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Chỉnh sửa",
+    title: "Theo dõi",
   }
 }
 
-export default EditProfile
+export default Metrics

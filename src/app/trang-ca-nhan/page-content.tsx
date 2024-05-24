@@ -3,11 +3,12 @@ import useAuth from "@/services/auth/use-auth"
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { getUserFullname } from "@/services/helpers/get-user-fullname"
 
 function Profile() {
   const { user } = useAuth()
 
-  const fullName = `${user?.firstName || ""} ${user?.lastName || ""}`
+  const fullName = getUserFullname(user)
 
   return (
     <div className="mt-10">
