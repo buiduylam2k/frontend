@@ -13,10 +13,12 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import { Toaster } from "@/components/ui/sonner"
 import Footer from "@/components/footer"
 import AffLinkProvider from "@/services/aff-link-provider"
+import { defaultOpenGraph } from "./shared-metadata"
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Cos Sin | Trang chủ",
+    openGraph: defaultOpenGraph,
   }
 }
 
@@ -25,11 +27,11 @@ const fontSans = FontSans({
   variable: "--font-sans",
 })
 
-export default function RootLayout({
-  children,
-}: {
+type TProps = {
   children: React.ReactNode
-}) {
+}
+
+export default function RootLayout({ children }: TProps) {
   return (
     <html>
       <body>
