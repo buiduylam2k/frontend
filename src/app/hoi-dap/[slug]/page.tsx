@@ -4,6 +4,7 @@ import wrapperFetchJsonResponse from "@/services/api/wrapper-fetch-json-response
 import { PostResponse } from "@/services/api/services/post"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 import getImagePath from "@/services/helpers/get-image-path"
+import { openGraphImage } from "@/app/shared-metadata"
 
 type Props = {
   params: { language: string; slug: string }
@@ -24,7 +25,7 @@ export async function generateMetadata(
   const previousImages = (await parent).openGraph?.images || []
 
   let title = "Cos Sin"
-  const images = ["/logo.png", ...previousImages]
+  const images = [...openGraphImage.images, ...previousImages]
 
   if (status === HTTP_CODES_ENUM.OK) {
     title = `${title} | ${data.title}`
