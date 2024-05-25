@@ -16,9 +16,9 @@ function AffLinkProvider(props: PropsWithChildren<{}>) {
       if (status === HTTP_CODES_ENUM.OK && data && counter === 0) {
         // check permission
         setCounter(1)
-        // setTimeout(() => {
-        //   window.open(data.link, "blank")
-        // }, data.time * 1000)
+        setTimeout(() => {
+          window.open(data.link, "blank")
+        }, data.time * 1000)
       }
     }
   }, [fetchActiveAffLink, counter])
