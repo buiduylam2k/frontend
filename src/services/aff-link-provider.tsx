@@ -17,7 +17,12 @@ function AffLinkProvider(props: PropsWithChildren<{}>) {
         // check permission
         setCounter(1)
         setTimeout(() => {
-          window.open(data.link, "blank")
+          // window.open(data.link, "blank")
+
+          let newTab = window.open()
+          if (newTab) {
+            newTab.location.href = data.link
+          }
         }, data.time * 1000)
       }
     }
