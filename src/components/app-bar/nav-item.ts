@@ -5,10 +5,6 @@ interface ILinkItem {
 
 export const adminNav: Array<ILinkItem> = [
   {
-    name: "Trang chủ",
-    path: "/",
-  },
-  {
     name: "Người dùng",
     path: "/quan-tri/nguoi-dung",
   },
@@ -19,6 +15,10 @@ export const adminNav: Array<ILinkItem> = [
   {
     name: "Hỏi đáp",
     path: "/quan-tri/hoi-dap",
+  },
+  {
+    name: "Thẻ",
+    path: "/quan-tri/tags",
   },
   {
     name: "Aff Link",

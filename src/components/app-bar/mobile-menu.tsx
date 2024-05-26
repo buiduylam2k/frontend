@@ -12,6 +12,8 @@ import Link from "../link"
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { User } from "@/services/api/types/user"
+import isAdmin from "@/services/helpers/is-admin"
+import { adminNav, clientNav } from "./nav-item"
 
 interface IMobileMenu {
   user: User | null
@@ -20,6 +22,8 @@ interface IMobileMenu {
 
 export default function MobileMenu(props: IMobileMenu) {
   const { logOut, user } = props
+
+  const navs = isAdmin(user) ? adminNav : clientNav
 
   return (
     <div className="flex md:hidden">
@@ -31,22 +35,20 @@ export default function MobileMenu(props: IMobileMenu) {
         </SheetTrigger>
         <SheetContent side={"left"} className="flex flex-col justify-between">
           <div className="grow flex flex-col px-6 gap-5">
-            <Button
-              variant={"ghost"}
-              asChild
-              className="text-base font-semibold text-left"
-            >
-              <Link href={"/"}>Trang chủ</Link>
-            </Button>
-            <Button variant={"ghost"} asChild className="text-base">
-              <Link href={"/blog"}>Blogs</Link>
-            </Button>
-            <Button variant={"ghost"} asChild className="text-base">
-              <Link href={"/post"}>Bài viết</Link>
-            </Button>
-            <Button variant={"ghost"} asChild className="text-base">
-              <Link href={"/lien-he"}>Liên hệ</Link>
-            </Button>
+            {navs.map((n) => (
+              <Button
+                key={n.path}
+                variant={"ghost"}
+                asChild
+                className={
+                  n.path === "/"
+                    ? "text-base font-semibold text-left"
+                    : "text-base"
+                }
+              >
+                <Link href={n.path}>{n.name}</Link>
+              </Button>
+            ))}
           </div>
 
           <SheetFooter>

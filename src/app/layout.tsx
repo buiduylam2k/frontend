@@ -13,12 +13,39 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import { Toaster } from "@/components/ui/sonner"
 import Footer from "@/components/footer"
 import AffLinkProvider from "@/services/aff-link-provider"
-import { defaultOpenGraph } from "./shared-metadata"
+import { siteConfig } from "@/conf/site"
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Cos Sin | Trang chủ",
-    openGraph: defaultOpenGraph,
+    title: {
+      default: siteConfig.name,
+      template: `%s | ${siteConfig.name}`,
+    },
+    metadataBase: new URL(siteConfig.url),
+    description: siteConfig.description,
+    keywords: siteConfig.keywords,
+    openGraph: {
+      type: "website",
+      locale: "vi_VN",
+      url: siteConfig.url,
+      title: siteConfig.name,
+      description: siteConfig.description,
+      siteName: siteConfig.name,
+      images: [
+        {
+          url: siteConfig.ogImage,
+          width: 1200,
+          height: 630,
+          alt: siteConfig.name,
+        },
+      ],
+    },
+    icons: {
+      icon: "/favicon.ico",
+      shortcut: "/favicon-16x16.png",
+      apple: "/apple-touch-icon.png",
+    },
+    manifest: `${siteConfig.url}/site.webmanifest`,
   }
 }
 
@@ -47,7 +74,7 @@ export default function RootLayout({ children }: TProps) {
               <AuthProvider>
                 <ResponsiveAppBar />
                 <AffLinkProvider>
-                  <div className="pt-14 pb-44">{children}</div>
+                  <div className="pb-44">{children}</div>
                 </AffLinkProvider>
                 <Footer />
               </AuthProvider>

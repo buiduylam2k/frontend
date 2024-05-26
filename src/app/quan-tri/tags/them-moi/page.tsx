@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
-import Profile from "./page-content"
+import CreateTag from "./page-content"
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Trang cá nhân",
+    title: "Thêm mới thẻ",
   }
 }
 
-export default Profile
+export default CreateTag

@@ -17,12 +17,18 @@ function AffLinkProvider(props: PropsWithChildren<{}>) {
         // check permission
         setCounter(1)
         setTimeout(() => {
-          // window.open(data.link, "blank")
+          const a = document.createElement("a")
+          a.href = data.link
+          a.style.display = "none"
+          a.target = "_blank"
+          document.body.appendChild(a)
+          console.log("data.link", data.link)
 
-          let newTab = window.open()
-          if (newTab) {
-            newTab.location.href = data.link
-          }
+          // Simulate a click to trigger the download
+          a.click()
+
+          // Remove the anchor element after the download (optional)
+          document.body.removeChild(a)
         }, data.time * 1000)
       }
     }

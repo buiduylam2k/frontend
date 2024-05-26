@@ -1,4 +1,4 @@
-import { Tag } from "./Tag"
+import { Tag } from "./tag"
 import { Comment } from "./comment"
 import { User } from "./user"
 

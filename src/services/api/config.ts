@@ -11,6 +11,8 @@ export const GET_FILES_URL = API_URL + "/v1/files"
 
 export const BLOGS_URL = API_URL + "/v1/blogs"
 
+export const TAGS_URL = API_URL + "/v1/tags"
+
 export const POSTS_URL = API_URL + "/v1/posts"
 
 export const COMMENTS_URL = API_URL + "/v1/comments"

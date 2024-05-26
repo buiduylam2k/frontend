@@ -1,7 +1,5 @@
 import type { Metadata } from "next"
-import CommonTemplate from "@/components/common-template"
-import HomePosts from "@/components/home-posts"
-import NewBlogs from "@/components/new-blogs"
+import HomePage from "./page-content"
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -9,10 +7,4 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function Home() {
-  return (
-    <CommonTemplate rightSide={<NewBlogs />}>
-      <HomePosts />
-    </CommonTemplate>
-  )
-}
+export default HomePage

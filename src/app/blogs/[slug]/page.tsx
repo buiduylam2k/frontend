@@ -4,7 +4,7 @@ import { BlogResponse } from "@/services/api/services/blog"
 import wrapperFetchJsonResponse from "@/services/api/wrapper-fetch-json-response"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 import getImagePath from "@/services/helpers/get-image-path"
-import { openGraphImage } from "@/app/shared-metadata"
+import { siteConfig } from "@/conf/site"
 
 type Props = {
   params: { language: string; slug: string }
@@ -24,11 +24,11 @@ export async function generateMetadata(
 
   const previousImages = (await parent).openGraph?.images || []
 
-  let title = "Cos Sin"
-  const images = [...openGraphImage.images, ...previousImages]
+  let title = "Chi tiết blogs"
+  const images = [siteConfig.ogImage, ...previousImages]
 
-  if (status === HTTP_CODES_ENUM.OK) {
-    title = `${title} | ${data.title}`
+  if (status === HTTP_CODES_ENUM.OK && data?.title) {
+    title = data.title
     images.push(getImagePath(data.banner))
   }
 
