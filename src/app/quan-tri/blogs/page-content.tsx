@@ -51,6 +51,8 @@ import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import EdiableJs from "@/components/editable-js"
 
+import getTagTypeName from "@/services/helpers/get-tag-type-name"
+
 const getColumnName = (key: string) => {
   const map: Record<string, string> = {
     title: "Tiêu đề",
@@ -62,7 +64,7 @@ const getColumnName = (key: string) => {
     banner: "",
     updatedAt: "",
     isDeleted: "",
-    tags: "",
+    tag: "Thẻ",
     slug: "",
   }
   return map[key]
@@ -70,6 +72,7 @@ const getColumnName = (key: string) => {
 
 function Blogs() {
   const fetchDeleteBlog = useDeleteBlogService()
+
   const router = useRouter()
 
   const [sorting, setSorting] = useState<SortingState>([])
@@ -87,6 +90,7 @@ function Blogs() {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
+  console.log("columnFilters", columnFilters)
 
   const columns: ColumnDef<Blog>[] = [
     // delete many
@@ -128,6 +132,24 @@ function Blogs() {
             <EdiableJs preview initialValue={row.getValue("content")} />
           </div>
         )
+      },
+    },
+    {
+      accessorKey: "tag",
+      header: "Loại",
+      cell: ({ row }) => {
+        return (
+          <div className="line-clamp-2">
+            {getTagTypeName(row.original?.tag?.type)}
+          </div>
+        )
+      },
+    },
+    {
+      accessorKey: "tag",
+      header: "Thẻ",
+      cell: ({ row }) => {
+        return <div className="line-clamp-2">{row.original?.tag?.name}</div>
       },
     },
     {
@@ -275,6 +297,7 @@ function Blogs() {
           }
           className="max-w-sm"
         />
+
         <DataTableViewOptions table={table} mapperName={getColumnName} />
 
         <Link href={"/quan-tri/blogs/them-moi"}>

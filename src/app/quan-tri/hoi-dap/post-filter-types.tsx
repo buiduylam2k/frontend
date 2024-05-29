@@ -2,7 +2,7 @@ import { Post } from "@/services/api/types/post"
 import { SortEnum } from "@/services/api/types/sort-type"
 
 export type PostFilterType = {
-  tagIds?: string[]
+  tag: string
 }
 
 export type BlogSortType = {

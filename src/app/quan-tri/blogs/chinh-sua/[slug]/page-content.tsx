@@ -6,6 +6,7 @@ import { z } from "zod"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,12 +27,23 @@ import {
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { toast } from "sonner"
 import EdiableJs from "@/components/editable-js"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { TagEnum } from "@/services/api/types/tags"
+import getTagTypeName from "@/services/helpers/get-tag-type-name"
+import { useQuery } from "@tanstack/react-query"
+import { useGetTagByTypeService } from "@/services/api/services/tag"
 
 const FormSchema = z.object({
   title: z.string().min(10, "Tiêu đề phải tối thiểu 10 ký tự!"),
   content: z.string().min(6, "Nội dung phải tối thiểu 6 ký tự!"),
   banner: z.optional(z.string()),
-  tags: z.array(z.string()),
+  tag: z.string(),
 })
 
 type TFormSchema = z.infer<typeof FormSchema>
@@ -40,7 +52,7 @@ const defaultValues: TFormSchema = {
   title: "",
   content: "",
   banner: "",
-  tags: [],
+  tag: TagEnum.Class,
 }
 
 function FormActions() {
@@ -57,8 +69,10 @@ function EditBlog() {
   const fetchFileUpload = useFileUploadService()
   const fetchUpdateBlog = usePatchBlogService()
   const fetchBlog = useGetBlogService()
+  const fetchTagByType = useGetTagByTypeService()
 
   const [file, setFile] = useState<File | undefined>()
+  const [type, setType] = useState<TagEnum>(TagEnum.Class)
 
   const params = useParams<{ slug: string }>()
   const queryParams = useSearchParams()
@@ -68,6 +82,22 @@ function EditBlog() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues,
+  })
+
+  const { data } = useQuery({
+    queryKey: [type],
+    queryFn: async ({ signal }) => {
+      const { data, status } = await fetchTagByType(
+        { type },
+        {
+          signal,
+        }
+      )
+
+      if (status === HTTP_CODES_ENUM.OK) {
+        return data
+      }
+    },
   })
 
   const { handleSubmit, setValue } = form
@@ -131,6 +161,59 @@ function EditBlog() {
                 <FormControl>
                   <Input placeholder={"Tiêu đề blog"} {...field} />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormItem>
+            <FormLabel>Loại</FormLabel>
+            <Select
+              onValueChange={(val) => setType(val as TagEnum)}
+              value={type}
+            >
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Chọn 1 trong các loại (lớp, blog, hỏi đáp)" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {Object.entries(TagEnum).map(([k, v]) => (
+                  <SelectItem key={k} value={v}>
+                    {getTagTypeName(v)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+
+          <FormField
+            control={form.control}
+            name="tag"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Thẻ</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Chọn 1 thẻ cho bài blog" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {data?.map((t) => (
+                      <SelectItem key={t.id} value={t.id.toString()}>
+                        {t.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormDescription>
+                  Chọn 1 loại thẻ để gắn vào các loại thẻ tương ứng
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

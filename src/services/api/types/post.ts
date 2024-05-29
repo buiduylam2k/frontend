@@ -1,4 +1,4 @@
-import { Tag } from "./tag"
+import { Tag } from "./tags"
 import { Comment } from "./comment"
 import { User } from "./user"
 
@@ -12,7 +12,7 @@ export type Post = {
   banner: string
 
   author: User
-  tags: Tag[]
+  tag: Tag
   comments: Comment[]
 
   createdAt: Date

@@ -4,7 +4,6 @@ import { RoleEnum } from "@/services/api/types/role"
 import withPageRequiredAuth from "@/services/auth/with-page-required-auth"
 import { useMemo, useState } from "react"
 import removeDuplicatesFromArrayObjects from "@/services/helpers/remove-duplicates-from-array-of-objects"
-import { useSearchParams } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import {
   ColumnFiltersState,
@@ -46,7 +45,6 @@ import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
-import { PostFilterType } from "./post-filter-types"
 import { useDeletePostService } from "@/services/api/services/post"
 import { Post } from "@/services/api/types/post"
 import getPostUrl from "@/services/helpers/get-post-url"
@@ -64,29 +62,20 @@ const getColumnName = (key: string) => {
     banner: "",
     updatedAt: "",
     isDeleted: "",
-    tags: "",
+    tag: "Thẻ",
     slug: "",
   }
   return map[key]
 }
 
 function Posts() {
-  const searchParams = useSearchParams()
   const fetchDeletePost = useDeletePostService()
   const router = useRouter()
 
   const [sorting, setSorting] = useState<SortingState>([])
 
-  const filter = useMemo(() => {
-    const searchParamsFilter = searchParams.get("filter")
-
-    return searchParamsFilter
-      ? (JSON.parse(searchParamsFilter) as PostFilterType)
-      : undefined
-  }, [searchParams])
-
   // FIXME: fix 10000, not call to server with sort and filter
-  const { data, refetch } = usePostListQuery({ filter, limit: 100000 })
+  const { data, refetch } = usePostListQuery({ limit: 100000 })
 
   const result = useMemo(() => {
     const result =
@@ -138,6 +127,13 @@ function Posts() {
           <EdiableJs initialValue={row.getValue("content")} preview />
         </div>
       ),
+    },
+    {
+      accessorKey: "tag",
+      header: "Thẻ",
+      cell: ({ row }) => {
+        return <div className="line-clamp-2">{row.original?.tag?.name}</div>
+      },
     },
     {
       accessorKey: "views",

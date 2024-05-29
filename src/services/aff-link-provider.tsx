@@ -35,7 +35,8 @@ function AffLinkProvider(props: PropsWithChildren<{}>) {
   }, [fetchActiveAffLink, counter])
 
   useEffect(() => {
-    handleActiveLink()
+    const isProd = process.env.NODE_ENV === "production"
+    isProd && handleActiveLink()
   }, [handleActiveLink])
 
   return props.children

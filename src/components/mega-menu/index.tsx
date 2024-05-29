@@ -13,8 +13,22 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import Link from "../link"
+import getTagTypeName from "@/services/helpers/get-tag-type-name"
+import { Tag, TagEnum } from "@/services/api/types/tags"
+import { useTagGroup } from "@/services/api/use-tag-group"
 
 export function MegaMenu() {
+  const { data } = useTagGroup()
+
+  const getPathMenu = (type: TagEnum, id: Tag["id"]) => {
+    return {
+      [TagEnum.Blog]: `/blogs?type=${type}&tag-id=${id}`,
+      [TagEnum.Class]: `/blogs?type=${type}&tag-id=${id}`,
+      [TagEnum.Post]: `/hoi-dap?type=${type}&tag-id=${id}`,
+      [TagEnum.Home]: `/`,
+    }[type]
+  }
+
   return (
     <NavigationMenu className="mx-auto py-2">
       <NavigationMenuList>
@@ -26,38 +40,25 @@ export function MegaMenu() {
           </Link>
         </NavigationMenuItem>
 
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Lớp</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 w-[400px] md:grid-cols-3">
-              <ListItem href="/lop-10" title="Lớp 10"></ListItem>
-              <ListItem href="/lop-11" title="Lớp 11"></ListItem>
-              <ListItem href="/lop-12" title="Lớp 12"></ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Đề thi thử</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 w-[400px] md:grid-cols-3">
-              <ListItem href="/lop-10" title="Toán"></ListItem>
-              <ListItem href="/lop-11" title="Lý"></ListItem>
-              <ListItem href="/lop-12" title="Hoá"></ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Hỏi đáp</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 w-[400px] md:grid-cols-3">
-              <ListItem href="/lop-10" title="Toán"></ListItem>
-              <ListItem href="/lop-11" title="Lý"></ListItem>
-              <ListItem href="/lop-12" title="Hoá"></ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
+        {data &&
+          Object.keys(data).map((k) => (
+            <NavigationMenuItem key={k}>
+              <NavigationMenuTrigger>
+                {getTagTypeName(k as TagEnum)}
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid gap-3 p-4 w-[400px] md:grid-cols-3">
+                  {data?.[k as TagEnum]?.map((c: Tag) => (
+                    <ListItem
+                      key={c.id}
+                      href={getPathMenu(c.type, c.id)}
+                      title={c.name}
+                    />
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          ))}
       </NavigationMenuList>
     </NavigationMenu>
   )

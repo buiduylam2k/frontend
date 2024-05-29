@@ -64,7 +64,7 @@ export function useGetBlogService() {
 }
 
 export type BlogPostRequest = Pick<Blog, "title" | "content" | "banner"> & {
-  tags: string[]
+  tag: string
 }
 
 export type BlogPostResponse = Blog

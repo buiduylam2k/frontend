@@ -5,7 +5,7 @@ import wrapperFetchJsonResponse from "../wrapper-fetch-json-response"
 import { InfinityPaginationType } from "../types/infinity-pagination"
 import { SortEnum } from "../types/sort-type"
 import { RequestConfigType } from "./types/request-config"
-import { Tag } from "../types/tag"
+import { TGroupTags, Tag } from "../types/tags"
 
 export type TagsRequest = {
   page: number
@@ -119,6 +119,48 @@ export function useDeleteTagService() {
         method: "DELETE",
         ...requestConfig,
       }).then(wrapperFetchJsonResponse<TagDeleteResponse>)
+    },
+    [fetch]
+  )
+}
+
+export type GroupTagRequest = {
+  type?: Tag["type"]
+}
+
+export type GroupTagResponse = TGroupTags
+
+export function useGetGroupTagService() {
+  const fetch = useFetch()
+
+  return useCallback(
+    (requestConfig?: RequestConfigType) => {
+      const url = `${TAGS_URL}/group`
+
+      return fetch(url, {
+        method: "GET",
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<GroupTagResponse>)
+    },
+    [fetch]
+  )
+}
+
+export type TagsByTypeRequest = {
+  type: Tag["type"]
+}
+
+export type TagsByTypeResponse = Array<Tag>
+
+export function useGetTagByTypeService() {
+  const fetch = useFetch()
+
+  return useCallback(
+    (data: TagsByTypeRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${TAGS_URL}/group/${data.type}`, {
+        method: "GET",
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<TagsByTypeResponse>)
     },
     [fetch]
   )

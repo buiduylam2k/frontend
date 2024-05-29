@@ -21,7 +21,7 @@ import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { usePostTagService } from "@/services/api/services/tag"
-import { TagEnum } from "@/services/api/types/tag"
+import { TagEnum } from "@/services/api/types/tags"
 import { getValues } from "@/lib/enum"
 import {
   Select,

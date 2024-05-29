@@ -1,4 +1,4 @@
-import { Tag } from "./tag"
+import { Tag } from "./tags"
 import { User } from "./user"
 
 export type Blog = {
@@ -10,7 +10,7 @@ export type Blog = {
   isDeleted: boolean
   views: number
   author: User
-  tags: Tag[]
+  tag: Tag
   slug: string
   banner: string
 }

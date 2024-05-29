@@ -10,12 +10,12 @@ export const blogsQueryKeys = createQueryKeys(["blogs"], {
     sub: {
       by: ({
         sort,
-        filter,
+        filters,
       }: {
-        filter: BlogFilterType | undefined
+        filters: BlogFilterType | undefined
         sort?: BlogSortType | undefined
       }) => ({
-        key: [sort, filter],
+        key: [sort, filters],
       }),
     },
   }),
@@ -30,22 +30,28 @@ export const blogsQueryKeys = createQueryKeys(["blogs"], {
 })
 
 interface IUseBlogListQuery {
-  filter?: BlogFilterType | undefined
+  filters?: BlogFilterType | undefined
   sort?: BlogSortType | undefined
   limit?: number
 }
 
-export const useBlogListQuery = ({ limit }: IUseBlogListQuery = {}) => {
+export const useBlogListQuery = ({
+  limit,
+  filters,
+}: IUseBlogListQuery = {}) => {
   const fetch = useGetBlogsService()
 
   const query = useInfiniteQuery({
-    queryKey: blogsQueryKeys.list().key,
+    queryKey: blogsQueryKeys.list().sub.by({
+      filters,
+    }).key,
     initialPageParam: 1,
     queryFn: async ({ pageParam, signal }) => {
       const { status, data } = await fetch(
         {
           page: pageParam,
           limit: limit ?? 10,
+          filters,
         },
         {
           signal,

@@ -16,6 +16,8 @@ import {
   parseDataTransfer,
   Placeholder,
   Editable,
+  EditableProvider,
+  ContentEditable,
 } from "@editablejs/editor"
 import {
   ContextMenu,
@@ -78,7 +80,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
 import Image from "next/image"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import Preview from "./preview"
-import Content from "./content"
 import {
   forwardRef,
   useCallback,
@@ -320,53 +321,47 @@ export default forwardRef<EditableJsRef, EdiableJsProps>(function EditableJs(
           <TabsTrigger value="preview">Xem trước</TabsTrigger>
         </TabsList>
         <TabsContent value="editor">
-          <Content
-            provider={{
-              editor,
-              value: _value,
-              onChange: handleOnChange,
-            }}
-            content={{
-              placeholder: placeholder || "Nội dung bài blog...",
-            }}
-            header={
-              <div className="shadow-sm rounded-lg bg-slate-50">
-                {Object.keys(remoteClients).map((id) => {
-                  const state = remoteClients[id]
-                  if (!state.data) return null
-                  const { name, avatar } = state.data
-                  return (
-                    <Tooltip key={id}>
-                      <TooltipTrigger asChild>
-                        <div className="rounded-full w-7 h-7 overflow-hidden">
-                          <Image
-                            alt={name}
-                            src={avatar ?? name}
-                            width={28}
-                            height={28}
-                          />
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent>{name}</TooltipContent>
-                    </Tooltip>
-                  )
-                })}
-                <ToolbarComponent editor={editor} className="py-2 px-4" />
-              </div>
-            }
-          />
+          <EditableProvider
+            editor={editor}
+            value={_value}
+            onChange={handleOnChange}
+          >
+            <div className="shadow-sm rounded-lg bg-slate-50">
+              {Object.keys(remoteClients).map((id) => {
+                const state = remoteClients[id]
+                if (!state.data) return null
+                const { name, avatar } = state.data
+                return (
+                  <Tooltip key={id}>
+                    <TooltipTrigger asChild>
+                      <div className="rounded-full w-7 h-7 overflow-hidden">
+                        <Image
+                          alt={name}
+                          src={avatar ?? name}
+                          width={28}
+                          height={28}
+                        />
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>{name}</TooltipContent>
+                  </Tooltip>
+                )
+              })}
+              <ToolbarComponent editor={editor} className="py-2 px-4" />
+            </div>
+            <div className="mt-2 md:mt-5">
+              <ContentEditable
+                placeholder={placeholder || "Nội dung bài blog..."}
+              />
+            </div>
+          </EditableProvider>
         </TabsContent>
         <TabsContent value="preview">
-          <Content
-            provider={{
-              editor,
-              value: _value,
-            }}
-            content={{
-              readOnly: true,
-              placeholder: "",
-            }}
-          />
+          <EditableProvider editor={editor} value={_value}>
+            <div className="mt-2 md:mt-5">
+              <ContentEditable readOnly placeholder="" />
+            </div>
+          </EditableProvider>
         </TabsContent>
       </Tabs>
     </div>

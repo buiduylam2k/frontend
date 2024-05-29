@@ -24,7 +24,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { toast } from "sonner"
 
 import { getValues } from "@/lib/enum"
-import { TagEnum } from "@/services/api/types/tag"
+import { TagEnum } from "@/services/api/types/tags"
 import {
   useGetTagService,
   usePatchTagService,

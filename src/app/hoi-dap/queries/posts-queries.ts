@@ -11,29 +11,33 @@ export const postsQueryKeys = createQueryKeys(["posts"], {
   list: () => ({
     key: [],
     sub: {
-      by: ({ filter }: { filter: PostFilterType | undefined }) => ({
-        key: [filter],
+      by: ({ filters }: { filters: PostFilterType | undefined }) => ({
+        key: [filters],
       }),
     },
   }),
 })
 
 interface IUsePostListQuery {
-  filter?: PostFilterType | undefined
+  filters?: PostFilterType | undefined
   limit?: number
 }
 
-export const usePostListQuery = ({ limit }: IUsePostListQuery = {}) => {
+export const usePostListQuery = ({
+  limit,
+  filters,
+}: IUsePostListQuery = {}) => {
   const fetch = useGetPostsService()
 
   const query = useInfiniteQuery({
-    queryKey: postsQueryKeys.list().key,
+    queryKey: postsQueryKeys.list().sub.by({ filters }).key,
     initialPageParam: 1,
     queryFn: async ({ pageParam, signal }) => {
       const { status, data } = await fetch(
         {
           page: pageParam,
           limit: limit ?? 10,
+          filters,
         },
         {
           signal,

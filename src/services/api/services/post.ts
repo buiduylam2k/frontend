@@ -10,7 +10,9 @@ import { Post } from "../types/post"
 export type PostsRequest = {
   page: number
   limit: number
-  filters?: {}
+  filters?: {
+    tag: string
+  }
   sort?: Array<{
     orderBy: keyof Post
     order: SortEnum
@@ -64,7 +66,7 @@ export function useGetPostService() {
 }
 
 export type CreatePostRequest = Pick<Post, "content"> & {
-  tags: string[]
+  tag: string
 }
 
 export type CreatePostResponse = Post
@@ -162,6 +164,26 @@ export function useDeleteCommentPostService() {
         method: "DELETE",
         ...requestConfig,
       }).then(wrapperFetchJsonResponse<undefined>)
+    },
+    [fetch]
+  )
+}
+
+export type PostAddViewRequest = {
+  slug: Post["slug"]
+}
+
+export type PostAddViewResponse = undefined
+
+export function useAddViewPostService() {
+  const fetch = useFetch()
+
+  return useCallback(
+    (data: PostAddViewRequest, requestConfig?: RequestConfigType) => {
+      return fetch(`${POSTS_URL}/${data.slug}/add-view`, {
+        method: "PATCH",
+        ...requestConfig,
+      }).then(wrapperFetchJsonResponse<PostAddViewResponse>)
     },
     [fetch]
   )

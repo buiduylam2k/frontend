@@ -47,7 +47,7 @@ import { toast } from "sonner"
 import { Badge } from "@/components/ui/badge"
 import { useDeleteAffLinkService } from "@/services/api/services/aff-link"
 import { useTagListQuery } from "./queries/tags-queries"
-import { Tag } from "@/services/api/types/tag"
+import { Tag } from "@/services/api/types/tags"
 import { usePatchTagService } from "@/services/api/services/tag"
 
 const getColumnName = (key: string) => {

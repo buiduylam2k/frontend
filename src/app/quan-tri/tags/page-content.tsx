@@ -45,7 +45,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { Badge } from "@/components/ui/badge"
-import { Tag } from "@/services/api/types/tag"
+import { Tag } from "@/services/api/types/tags"
 import {
   useDeleteTagService,
   usePatchTagService,

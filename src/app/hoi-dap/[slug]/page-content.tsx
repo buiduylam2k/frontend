@@ -7,6 +7,7 @@ import Link from "@/components/link"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import UserHoverCard from "@/components/user-hover-card"
 import {
+  useAddViewPostService,
   useDeleteCommentPostService,
   useGetPostService,
 } from "@/services/api/services/post"
@@ -23,6 +24,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { RoleEnum } from "@/services/api/types/role"
+import { useEffect } from "react"
+import { getUserFullname } from "@/services/helpers/get-user-fullname"
 
 type Props = {
   params: { language: string; slug: string }
@@ -31,6 +34,7 @@ type Props = {
 export default function PostDetail({ params }: Props) {
   const { slug } = params
   const fetchGetPost = useGetPostService()
+  const fetchAddView = useAddViewPostService()
   const deleteComment = useDeleteCommentPostService()
   const { user } = useAuth()
 
@@ -53,7 +57,7 @@ export default function PostDetail({ params }: Props) {
   })
 
   const author = data?.author
-  const fullName = `${author?.firstName || ""} ${author?.lastName || ""}`
+  const fullName = getUserFullname(user)
   const commentLen = data?.comments?.length ?? 0
 
   const handleDeleteComment = async (cmtId: string | number) => {
@@ -67,6 +71,12 @@ export default function PostDetail({ params }: Props) {
   }
 
   const isAdmin = user?.role?.id === RoleEnum.ADMIN
+
+  useEffect(() => {
+    fetchAddView({
+      slug,
+    })
+  }, [slug, fetchAddView])
 
   return (
     <CommonTemplate>

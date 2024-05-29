@@ -20,7 +20,7 @@ import Image from "next/image"
 interface IBlogCard extends Partial<Blog> {}
 
 export default function BlogCard(props: IBlogCard) {
-  const { title, content = "", createdAt, tags, id, slug, banner } = props
+  const { title, content = "", createdAt, tag, id, slug, banner } = props
   return (
     <Link key={id} href={`/blogs/${slug}`}>
       <Card className="w-full">
@@ -48,9 +48,7 @@ export default function BlogCard(props: IBlogCard) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center space-x-2">
-            {tags?.map((tag) => <Tag key={tag.id}>{tag.name}</Tag>)}
-          </div>
+          <Tag>{tag?.name}</Tag>
         </CardContent>
       </Card>
     </Link>
