@@ -315,7 +315,7 @@ function Posts() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Không có link nào.
+                  Không có thẻ nào.
                 </TableCell>
               </TableRow>
             )}
