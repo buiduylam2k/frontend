@@ -90,7 +90,6 @@ function Blogs() {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
-  console.log("columnFilters", columnFilters)
 
   const columns: ColumnDef<Blog>[] = [
     // delete many

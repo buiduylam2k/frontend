@@ -291,8 +291,6 @@ export default forwardRef<EditableJsRef, EdiableJsProps>(function EditableJs(
     () => {
       return {
         deleteContent() {
-          console.log("hixx")
-
           Transforms.delete(editor, {
             at: {
               anchor: Editor.start(editor, []),

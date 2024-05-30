@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import EditBlog from "./page-content"
+import EditPost from "./page-content"
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined }
@@ -13,4 +13,4 @@ export async function generateMetadata({
   }
 }
 
-export default EditBlog
+export default EditPost

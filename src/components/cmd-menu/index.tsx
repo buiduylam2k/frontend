@@ -2,35 +2,29 @@
 
 import { useRouter } from "next/navigation"
 
-import { useTheme } from "next-themes"
-
 import { cn } from "@/lib/utils"
 import { DialogProps } from "@radix-ui/react-dialog"
 import { Button } from "../ui/button"
 import {
   CommandDialog,
   CommandEmpty,
-  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
 } from "../ui/command"
-import {
-  CircleIcon,
-  FileIcon,
-  LaptopIcon,
-  MoonIcon,
-  SunIcon,
-} from "lucide-react"
-import { docsConfig } from "./docs"
+import { FileIcon } from "lucide-react"
 import {
   forwardRef,
   useCallback,
   useEffect,
   useImperativeHandle,
+  useMemo,
   useState,
 } from "react"
+import { useGlobalSearchListQuery } from "./global-search-queries"
+import useDebounce from "@/lib/use-debounce"
+import { GlobalSearch } from "@/services/api/types/global-search"
+import removeDuplicatesFromArrayObjects from "@/services/helpers/remove-duplicates-from-array-of-objects"
 
 export type CMDMenuRef = {
   open: () => void
@@ -42,7 +36,20 @@ export default forwardRef<CMDMenuRef>(function CommandMenu(
 ) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
-  const { setTheme } = useTheme()
+  const [search, setSearch] = useState("")
+  const debouncedSearchQuery = useDebounce(search, 600)
+
+  const { data } = useGlobalSearchListQuery({
+    filters: { name: debouncedSearchQuery.trim() },
+  })
+
+  const result = useMemo(() => {
+    const result =
+      (data?.pages.flatMap((page) => page?.data) as GlobalSearch[]) ??
+      ([] as GlobalSearch[])
+
+    return removeDuplicatesFromArrayObjects(result, "id")
+  }, [data])
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -102,58 +109,33 @@ export default forwardRef<CMDMenuRef>(function CommandMenu(
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Hãy nhập gì đó..." />
+        <CommandInput
+          value={search}
+          onValueChange={setSearch}
+          placeholder="Hãy nhập gì đó..."
+        />
         <CommandList>
           <CommandEmpty>Không có kết quả nào được tìm thấy.</CommandEmpty>
-          <CommandGroup heading="Links">
-            {docsConfig.mainNav
-              .filter((navitem) => !navitem.external)
-              .map((navItem) => (
-                <CommandItem
-                  key={navItem.href}
-                  value={navItem.title}
-                  onSelect={() => {
-                    runCommand(() => router.push(navItem.href as string))
-                  }}
-                >
-                  <FileIcon className="mr-2 h-4 w-4" />
-                  {navItem.title}
-                </CommandItem>
-              ))}
-          </CommandGroup>
-          {docsConfig.sidebarNav.map((group) => (
-            <CommandGroup key={group.title} heading={group.title}>
-              {group.items.map((navItem) => (
-                <CommandItem
-                  key={navItem.href}
-                  value={navItem.title}
-                  onSelect={() => {
-                    runCommand(() => router.push(navItem.href as string))
-                  }}
-                >
-                  <div className="mr-2 flex h-4 w-4 items-center justify-center">
-                    <CircleIcon className="h-3 w-3" />
-                  </div>
-                  {navItem.title}
-                </CommandItem>
-              ))}
-            </CommandGroup>
+          {result.map((gs) => (
+            <CommandItem
+              key={gs.id}
+              value={gs.name}
+              className="cursor-pointer"
+              onSelect={() => {
+                runCommand(() => {
+                  const path =
+                    gs.type === "class" || gs.type === "blog"
+                      ? "blogs"
+                      : "hoi-dap"
+
+                  router.push(`/${path}/${gs.slug}`)
+                })
+              }}
+            >
+              <FileIcon className="mr-2 h-4 w-4" />
+              {gs.name}
+            </CommandItem>
           ))}
-          <CommandSeparator />
-          <CommandGroup heading="Theme">
-            <CommandItem onSelect={() => runCommand(() => setTheme("light"))}>
-              <SunIcon className="mr-2 h-4 w-4" />
-              Light
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme("dark"))}>
-              <MoonIcon className="mr-2 h-4 w-4" />
-              Dark
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme("system"))}>
-              <LaptopIcon className="mr-2 h-4 w-4" />
-              System
-            </CommandItem>
-          </CommandGroup>
         </CommandList>
       </CommandDialog>
     </>

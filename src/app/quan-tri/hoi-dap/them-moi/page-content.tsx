@@ -49,7 +49,7 @@ const defaultValues: TFormSchema = {
   title: "",
   content: "",
   banner: "",
-  tag: TagEnum.Class,
+  tag: "",
 }
 
 function FormActions() {

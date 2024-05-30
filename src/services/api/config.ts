@@ -18,3 +18,5 @@ export const POSTS_URL = API_URL + "/v1/posts"
 export const COMMENTS_URL = API_URL + "/v1/comments"
 
 export const AFF_LINK_URL = API_URL + "/v1/aff-link"
+
+export const GLOBAL_SEARCH_URL = API_URL + "/v1/global-search"

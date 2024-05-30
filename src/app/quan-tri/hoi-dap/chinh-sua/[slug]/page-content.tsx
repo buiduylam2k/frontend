@@ -39,12 +39,13 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import getTagTypeName from "@/services/helpers/get-tag-type-name"
+import { Post } from "@/services/api/types/post"
 
 const FormSchema = z.object({
   title: z.string().min(10, "Tiêu đề phải tối thiểu 10 ký tự!"),
   content: z.string().min(6, "Nội dung phải tối thiểu 6 ký tự!"),
   banner: z.optional(z.string()),
-  tag: z.string(),
+  tag: z.string().min(1, "Thẻ không được để trống"),
 })
 
 type TFormSchema = z.infer<typeof FormSchema>
@@ -53,7 +54,7 @@ const defaultValues: TFormSchema = {
   title: "",
   content: "",
   banner: "",
-  tag: TagEnum.Class,
+  tag: "",
 }
 
 function FormActions() {
@@ -74,6 +75,7 @@ function EditPost() {
 
   const [file, setFile] = useState<File | undefined>()
   const [type, setType] = useState<TagEnum>(TagEnum.Class)
+  const [cachePost, setCachePost] = useState<Post | null>(null)
 
   const params = useParams<{ slug: string }>()
   const queryParams = useSearchParams()
@@ -103,8 +105,13 @@ function EditPost() {
 
   const { handleSubmit, setValue } = form
 
-  const onSubmit = async (formData: TFormSchema) => {
-    const cloneFormData = { ...formData }
+  const onSubmit = async ({ title, content, tag }: TFormSchema) => {
+    const cloneFormData = { content, tag } as TFormSchema
+
+    if (title !== cachePost?.title) {
+      cloneFormData.title = title
+    }
+
     if (file) {
       const { status: statusUpload, data: dataUpload } =
         await fetchFileUpload(file)
@@ -139,9 +146,14 @@ function EditPost() {
       if (status === HTTP_CODES_ENUM.OK) {
         setValue("title", data.title)
         setValue("content", data.content)
+        setType(data.tag.type)
+        setTimeout(() => {
+          setValue("tag", data.tag.id.toString())
+        }, 100)
+        setCachePost(data)
       }
     })
-  }, [params.slug, fetchPost, setValue])
+  }, [params.slug, fetchPost, setValue, setType, setCachePost])
 
   return (
     <Form {...form}>
