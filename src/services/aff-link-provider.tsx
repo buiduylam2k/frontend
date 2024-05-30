@@ -22,7 +22,6 @@ function AffLinkProvider(props: PropsWithChildren<{}>) {
           a.style.display = "none"
           a.target = "_blank"
           document.body.appendChild(a)
-          console.log("data.link", data.link)
 
           // Simulate a click to trigger the download
           a.click()
