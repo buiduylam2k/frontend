@@ -14,7 +14,6 @@ import { Toaster } from "@/components/ui/sonner"
 import Footer from "@/components/footer"
 import AffLinkProvider from "@/services/aff-link-provider"
 import { siteConfig } from "@/conf/site"
-import Head from "next/head"
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -47,6 +46,9 @@ export async function generateMetadata(): Promise<Metadata> {
       apple: "/apple-touch-icon.png",
     },
     manifest: `${siteConfig.url}/site.webmanifest`,
+    other: {
+      "google-site-verification": "bT-5ebRKw5_x1W9sCZxA_VGc0Lb44yJFZBHtPrYcCZQ",
+    },
   }
 }
 
@@ -62,12 +64,6 @@ type TProps = {
 export default function RootLayout({ children }: TProps) {
   return (
     <html>
-      <Head>
-        <meta
-          name="google-site-verification"
-          content="bT-5ebRKw5_x1W9sCZxA_VGc0Lb44yJFZBHtPrYcCZQ"
-        />
-      </Head>
       <body>
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
