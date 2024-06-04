@@ -1,7 +1,7 @@
 "use client"
 
 // import CommentItem from "@/components/comments/comment-item"
-import CommentForm from "@/components/comments/form"
+// import CommentForm from "@/components/comments/form"
 import CommonTemplate from "@/components/common-template"
 import Link from "@/components/link"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -42,7 +42,7 @@ export default function PostDetail({ params }: Props) {
   const [showAnswer, setShowAnser] = useState(false)
   const fetchCreateMetric = useCreateMetricService()
 
-  const { data, refetch } = useQuery({
+  const { data } = useQuery({
     queryKey: postsQueryKeys.details(slug).key,
     queryFn: async ({ signal }) => {
       const { data, status } = await fetchGetPost(
@@ -129,9 +129,9 @@ export default function PostDetail({ params }: Props) {
           )}
 
           <div>
-            {data?.id && isAdmin && (
+            {/* {data?.id && isAdmin && (
               <CommentForm refresh={refetch} slug={data.slug} />
-            )}
+            )} */}
 
             {/* {!!data?.comments?.length && (
               <Accordion type="single" collapsible>
