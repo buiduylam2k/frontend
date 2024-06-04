@@ -24,7 +24,6 @@ export function MegaMenu() {
     return {
       [TagEnum.Blog]: `/blogs?type=${type}&tag-id=${id}`,
       [TagEnum.Class]: `/blogs?type=${type}&tag-id=${id}`,
-      [TagEnum.Post]: `/hoi-dap?type=${type}&tag-id=${id}`,
       [TagEnum.Home]: `/`,
     }[type]
   }
@@ -59,6 +58,14 @@ export function MegaMenu() {
               </NavigationMenuContent>
             </NavigationMenuItem>
           ))}
+
+        <NavigationMenuItem>
+          <Link href="/hoi-dap" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Hỏi đáp
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   )

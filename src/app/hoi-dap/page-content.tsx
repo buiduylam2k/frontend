@@ -6,19 +6,10 @@ import { Button } from "@/components/ui/button"
 import { usePostListQuery } from "./queries/posts-queries"
 import { Post } from "@/services/api/types/post"
 import PostCard from "@/components/post-card"
-import { useSearchParams } from "next/navigation"
-import { TagEnum } from "@/services/api/types/tags"
-import TagList from "@/components/tag-list"
 
 export default function Posts() {
-  const queryParams = useSearchParams()
-
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
-    usePostListQuery({
-      filters: {
-        tag: queryParams.get("tag-id") as string,
-      },
-    })
+    usePostListQuery()
 
   const result = useMemo(() => {
     const result =
@@ -28,12 +19,7 @@ export default function Posts() {
   }, [data])
 
   return (
-    <div className="default-layout my-10 flex-col px-5">
-      <TagList
-        type={queryParams.get("type") as TagEnum}
-        tagId={queryParams.get("tag-id") as string}
-      />
-
+    <div className="default-layout mb-10 flex-col px-5">
       <ul className="space-y-10 w-full mt-10">
         {result.map((item) => (
           <li key={item.id}>

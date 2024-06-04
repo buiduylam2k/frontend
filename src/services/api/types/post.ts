@@ -18,4 +18,5 @@ export type Post = {
   createdAt: Date
   updatedAt: Date
   isDeleted: boolean
+  answer: string
 }

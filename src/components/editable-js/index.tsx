@@ -67,7 +67,7 @@ import {
   useSlashToolbarEffect,
   SlashToolbar,
 } from "@editablejs/plugin-toolbar/slash"
-
+import { HTMLSerializer } from "@editablejs/serializer/html"
 import { withHTMLSerializerTransform } from "@editablejs/plugins/serializer/html"
 import { withTextSerializerTransform } from "@editablejs/plugins/serializer/text"
 import { withHTMLDeserializerTransform } from "@editablejs/plugins/deserializer/html"
@@ -79,7 +79,6 @@ import { createSlashToolbarItems } from "./slash-toolbar-items"
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
 import Image from "next/image"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
-import Preview from "./preview"
 import {
   forwardRef,
   useCallback,
@@ -307,8 +306,20 @@ export default forwardRef<EditableJsRef, EdiableJsProps>(function EditableJs(
     return initialValue ? JSON.parse(initialValue) : undefined
   }, [initialValue])
 
+  const html = useMemo(() => {
+    return (_value as Descendant[])
+      ?.map((b) => HTMLSerializer.transformWithEditor(editor, b))
+      ?.join("")
+  }, [_value, editor])
+
   if (preview) {
-    return <Preview initialValue={initialValue} editor={editor} />
+    return (
+      <div
+        dangerouslySetInnerHTML={{
+          __html: html,
+        }}
+      />
+    )
   }
 
   return (

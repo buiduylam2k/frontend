@@ -14,7 +14,7 @@ export type Tag = {
 export const TagEnum = {
   Class: "class",
   Blog: "blog",
-  Post: "post",
+  // Post: "post",
   Home: "home",
 } as const
 
