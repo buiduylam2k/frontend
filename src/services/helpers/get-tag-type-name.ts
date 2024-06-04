@@ -5,7 +5,7 @@ function getTagTypeName(type: TagEnum) {
     // [TagEnum.Post]: "Hỏi đáp",
     [TagEnum.Class]: "Lớp",
     [TagEnum.Blog]: "Đề thi thử",
-    [TagEnum.Home]: "Trang chủ",
+    // [TagEnum.Home]: "Trang chủ",
   }[type]
 }
 

@@ -3,6 +3,7 @@ import { createQueryKeys } from "@/services/react-query/query-key-factory"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { TagsFilterType, TagsSortType } from "../tags-filter-types"
 import { useGetTagsService } from "@/services/api/services/tag"
+import { SortEnum } from "@/services/api/types/sort-type"
 
 export const tagsQueryKeys = createQueryKeys(["tags"], {
   list: () => ({
@@ -47,6 +48,12 @@ export const useTagListQuery = ({
           page: pageParam,
           limit: limit ?? 10,
           filters: filter,
+          sort: [
+            {
+              order: SortEnum.DESC,
+              orderBy: "updatedAt",
+            },
+          ],
         },
         {
           signal,

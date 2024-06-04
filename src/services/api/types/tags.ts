@@ -15,7 +15,7 @@ export const TagEnum = {
   Class: "class",
   Blog: "blog",
   // Post: "post",
-  Home: "home",
+  // Home: "home",
 } as const
 
 export type TagEnum = (typeof TagEnum)[keyof typeof TagEnum]

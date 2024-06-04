@@ -65,9 +65,10 @@ export function useGetPostService() {
   )
 }
 
-export type CreatePostRequest = Pick<Post, "content"> & {
-  tag: string
-}
+export type CreatePostRequest = Pick<
+  Post,
+  "content" | "answer" | "title" | "banner"
+>
 
 export type CreatePostResponse = Post
 

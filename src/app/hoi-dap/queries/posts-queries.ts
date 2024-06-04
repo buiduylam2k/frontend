@@ -3,6 +3,7 @@ import { createQueryKeys } from "@/services/react-query/query-key-factory"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useGetPostsService } from "@/services/api/services/post"
 import { PostFilterType } from "../../quan-tri/hoi-dap/post-filter-types"
+import { SortEnum } from "@/services/api/types/sort-type"
 
 export const postsQueryKeys = createQueryKeys(["posts"], {
   details: (id: string) => ({
@@ -38,6 +39,12 @@ export const usePostListQuery = ({
           page: pageParam,
           limit: limit ?? 10,
           filters,
+          sort: [
+            {
+              order: SortEnum.DESC,
+              orderBy: "updatedAt",
+            },
+          ],
         },
         {
           signal,

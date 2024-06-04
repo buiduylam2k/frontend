@@ -3,6 +3,7 @@ import { createQueryKeys } from "@/services/react-query/query-key-factory"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { AffLinkFilterType, AffLinkSortType } from "../aff-link-filter-types"
 import { useGetAffLinksService } from "@/services/api/services/aff-link"
+import { SortEnum } from "@/services/api/types/sort-type"
 
 export const affLinksQueryKeys = createQueryKeys(["aff-links"], {
   list: () => ({
@@ -51,6 +52,12 @@ export const useAffLinkListQuery = ({
           page: pageParam,
           limit: limit ?? 10,
           filters: filter,
+          sort: [
+            {
+              order: SortEnum.DESC,
+              orderBy: "updatedAt",
+            },
+          ],
         },
         {
           signal,

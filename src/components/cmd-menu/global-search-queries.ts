@@ -54,6 +54,12 @@ export const useGlobalSearchListQuery = ({
           page: pageParam,
           limit: limit ?? 10,
           filters,
+          sort: [
+            {
+              order: SortEnum.DESC,
+              orderBy: "updatedAt",
+            },
+          ],
         },
         {
           signal,

@@ -3,6 +3,7 @@ import { createQueryKeys } from "@/services/react-query/query-key-factory"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useGetBlogsService } from "@/services/api/services/blog"
 import { BlogFilterType, BlogSortType } from "../blog-filter-types"
+import { SortEnum } from "@/services/api/types/sort-type"
 
 export const blogsQueryKeys = createQueryKeys(["blogs"], {
   list: () => ({
@@ -52,6 +53,12 @@ export const useBlogListQuery = ({
           page: pageParam,
           limit: limit ?? 10,
           filters,
+          sort: [
+            {
+              order: SortEnum.DESC,
+              orderBy: "updatedAt",
+            },
+          ],
         },
         {
           signal,

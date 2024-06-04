@@ -130,7 +130,7 @@ function CreateTag() {
                   <SelectContent>
                     <SelectItem value={TagEnum.Class}>Lớp</SelectItem>
                     <SelectItem value={TagEnum.Blog}>Đề thi thử</SelectItem>
-                    <SelectItem value={TagEnum.Home}>Trang chủ</SelectItem>
+                    {/* <SelectItem value={TagEnum.Home}>Trang chủ</SelectItem> */}
                   </SelectContent>
                 </Select>
                 <FormMessage />

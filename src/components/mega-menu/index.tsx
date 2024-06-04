@@ -24,7 +24,7 @@ export function MegaMenu() {
     return {
       [TagEnum.Blog]: `/blogs?type=${type}&tag-id=${id}`,
       [TagEnum.Class]: `/blogs?type=${type}&tag-id=${id}`,
-      [TagEnum.Home]: `/`,
+      // [TagEnum.Home]: `/`,
     }[type]
   }
 
