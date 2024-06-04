@@ -2,6 +2,7 @@
 import Image from "next/image"
 import Link from "../link"
 import logo from "@/app/icon.svg"
+import { siteConfig } from "@/conf/site"
 
 export default function Footer() {
   return (
@@ -16,8 +17,8 @@ export default function Footer() {
               height={32}
               className="rounded-sm"
             />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Cos Sin
+            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white font-concert-one">
+              {siteConfig.name}
             </span>
           </div>
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">

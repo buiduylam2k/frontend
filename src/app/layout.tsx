@@ -7,7 +7,7 @@ import type { Metadata } from "next"
 import QueryClientProvider from "@/services/react-query/query-client-provider"
 import queryClient from "@/services/react-query/query-client"
 import ReactQueryDevtools from "@/services/react-query/react-query-devtools"
-import { Inter as FontSans } from "next/font/google"
+import { Inter as FontSans, Concert_One } from "next/font/google"
 import { cn } from "@/lib/utils"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Toaster } from "@/components/ui/sonner"
@@ -57,6 +57,12 @@ const fontSans = FontSans({
   variable: "--font-sans",
 })
 
+const concertOne = Concert_One({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-concert-one",
+})
+
 type TProps = {
   children: React.ReactNode
 }
@@ -70,7 +76,8 @@ export default function RootLayout({ children }: TProps) {
           <body
             className={cn(
               "min-h-screen bg-background font-sans antialiased",
-              fontSans.variable
+              fontSans.variable,
+              concertOne.variable
             )}
           >
             <TooltipProvider>

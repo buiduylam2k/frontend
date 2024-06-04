@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Cos Sin",
+  name: "Cossin.vn",
   url: "https://cossin.vn",
   ogImage: "https://cossin.vn/logo.png",
   description:
@@ -19,6 +19,7 @@ export const siteConfig = {
     "Lớp 12",
     "Đề thi thử",
     "Hỏi đáp",
+    "Cossin.vn",
   ],
 }
 

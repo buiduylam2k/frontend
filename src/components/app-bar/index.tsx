@@ -7,13 +7,13 @@ import AdminNavigation from "./admin-navigation"
 import useAuthActions from "@/services/auth/use-auth-actions"
 import Image from "next/image"
 import logo from "@/app/icon.svg"
-import { webName } from "@/app/shared-metadata"
 import isAdmin from "@/services/helpers/is-admin"
 import { MegaMenu } from "../mega-menu"
 import CommandMenu, { CMDMenuRef } from "../cmd-menu"
 import { Button } from "../ui/button"
 import { SearchIcon } from "lucide-react"
 import { useRef } from "react"
+import { siteConfig } from "@/conf/site"
 
 function ResponsiveAppBar() {
   const { user } = useAuth()
@@ -34,7 +34,9 @@ function ResponsiveAppBar() {
               className="rounded-sm"
             />
             <Link href="/">
-              <span className="text-3xl font-semibold md:flex">{webName}</span>
+              <span className="text-3xl font-semibold md:flex font-concert-one">
+                {siteConfig.name}
+              </span>
             </Link>
           </div>
 
