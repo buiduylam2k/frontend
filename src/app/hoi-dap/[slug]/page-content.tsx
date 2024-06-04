@@ -7,7 +7,6 @@ import Link from "@/components/link"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import UserHoverCard from "@/components/user-hover-card"
 import {
-  useAddViewPostService,
   // useDeleteCommentPostService,
   useGetPostService,
 } from "@/services/api/services/post"
@@ -28,6 +27,8 @@ import { useEffect, useState } from "react"
 import { getUserFullname } from "@/services/helpers/get-user-fullname"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { useCreateMetricService } from "@/services/api/services/metric"
+import { MetricEnum } from "@/services/api/types/metric"
 
 type Props = {
   params: { language: string; slug: string }
@@ -36,10 +37,10 @@ type Props = {
 export default function PostDetail({ params }: Props) {
   const { slug } = params
   const fetchGetPost = useGetPostService()
-  const fetchAddView = useAddViewPostService()
   // const deleteComment = useDeleteCommentPostService()
   const { user } = useAuth()
   const [showAnswer, setShowAnser] = useState(false)
+  const fetchCreateMetric = useCreateMetricService()
 
   const { data, refetch } = useQuery({
     queryKey: postsQueryKeys.details(slug).key,
@@ -76,10 +77,14 @@ export default function PostDetail({ params }: Props) {
   const isAdmin = user?.role?.id === RoleEnum.ADMIN
 
   useEffect(() => {
-    fetchAddView({
-      slug,
-    })
-  }, [slug, fetchAddView])
+    if (data) {
+      fetchCreateMetric({
+        name: data.title,
+        originId: data.id.toString(),
+        type: MetricEnum.POST_VIEW,
+      })
+    }
+  }, [data, fetchCreateMetric])
 
   return (
     <CommonTemplate>

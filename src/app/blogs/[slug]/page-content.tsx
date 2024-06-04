@@ -1,15 +1,14 @@
 "use client"
 
 import CommonTemplate from "@/components/common-template"
-import {
-  useAddViewBlogService,
-  useGetBlogService,
-} from "@/services/api/services/blog"
+import { useGetBlogService } from "@/services/api/services/blog"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 import { useQuery } from "@tanstack/react-query"
 import { blogsQueryKeys } from "../queries/blogs-queries"
 import { useEffect } from "react"
 import EdiableJs from "@/components/editable-js"
+import { useCreateMetricService } from "@/services/api/services/metric"
+import { MetricEnum } from "@/services/api/types/metric"
 
 type Props = {
   params: { language: string; slug: string }
@@ -17,7 +16,7 @@ type Props = {
 
 export default function BlogDetail({ params }: Props) {
   const fetchGetBlog = useGetBlogService()
-  const fetchAddView = useAddViewBlogService()
+  const fetchCreateMetric = useCreateMetricService()
   const { slug } = params
 
   const { data } = useQuery({
@@ -39,10 +38,14 @@ export default function BlogDetail({ params }: Props) {
   })
 
   useEffect(() => {
-    fetchAddView({
-      slug,
-    })
-  }, [slug, fetchAddView])
+    if (data) {
+      fetchCreateMetric({
+        name: data.title,
+        originId: data.id.toString(),
+        type: MetricEnum.BLOG_VIEW,
+      })
+    }
+  }, [data, fetchCreateMetric])
 
   return (
     <CommonTemplate>
