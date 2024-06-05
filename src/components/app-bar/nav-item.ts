@@ -24,10 +24,6 @@ export const adminNav: Array<ILinkItem> = [
     name: "Aff Link",
     path: "/quan-tri/aff-link",
   },
-  {
-    name: "Theo dõi",
-    path: "/quan-tri/metrics",
-  },
 ]
 
 export const clientNav: Array<ILinkItem> = [

@@ -62,7 +62,6 @@ const getColumnName = (key: string) => {
     banner: "",
     updatedAt: "",
     isDeleted: "",
-    tag: "Thẻ",
     slug: "",
   }
   return map[key]
@@ -127,13 +126,6 @@ function Posts() {
           <EdiableJs initialValue={row.getValue("content")} preview />
         </div>
       ),
-    },
-    {
-      accessorKey: "tag",
-      header: "Thẻ",
-      cell: ({ row }) => {
-        return <div className="line-clamp-2">{row.original?.tag?.name}</div>
-      },
     },
     {
       accessorKey: "views",

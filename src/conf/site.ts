@@ -9,17 +9,17 @@ export const siteConfig = {
     github: "https://github.com/shadcn-ui/ui",
   },
   keywords: [
-    "Cos Sin",
     "Bài học",
-    "Toán",
-    "Lý",
-    "Hoá",
+    "Môn Toán",
+    "Môn Lý",
+    "Môn Hoá",
     "Lớp 10",
     "Lớp 11",
     "Lớp 12",
     "Đề thi thử",
     "Hỏi đáp",
     "Cossin.vn",
+    "Cossin",
   ],
 }
 

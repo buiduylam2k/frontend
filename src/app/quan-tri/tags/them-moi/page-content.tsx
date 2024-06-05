@@ -33,7 +33,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 
 const FormSchema = z.object({
-  name: z.string().min(6, { message: "Tên phải tối thiểu 6 ký tự." }),
+  name: z.string().min(1, { message: "Tên không được để trống!" }),
   type: z.enum(getValues(TagEnum), {
     errorMap: () => ({
       message: "Vui lòng chọn 1 loại.",

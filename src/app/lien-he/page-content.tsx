@@ -19,8 +19,8 @@ const FormSchema = z.object({
     .string()
     .email("Email không đúng định dạng!")
     .min(1, "Email không được để trống!"),
-  title: z.string().min(6, "Tiêu đề không được để trống!"),
-  content: z.string().min(6, "Nội dung không được để trống!"),
+  title: z.string().min(1, "Tiêu đề không được để trống!"),
+  content: z.string().min(1, "Nội dung không được để trống!"),
 })
 
 type TFormData = z.infer<typeof FormSchema>

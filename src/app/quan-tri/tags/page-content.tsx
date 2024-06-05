@@ -50,8 +50,8 @@ import {
   useDeleteTagService,
   usePatchTagService,
 } from "@/services/api/services/tag"
-import { useTagListQuery } from "@/app/tags/queries/tags-queries"
 import getTagTypeName from "@/services/helpers/get-tag-type-name"
+import { useTagListQuery } from "./queries/tags-queries"
 
 const getColumnName = (key: string) => {
   const map: Record<string, string> = {

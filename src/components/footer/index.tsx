@@ -29,9 +29,6 @@ export default function Footer() {
               <Link href="/hoi-dap">Hỏi đáp</Link>
             </li>
             <li className="hover:underline me-4 md:me-6">
-              <Link href="/#">Chính sách</Link>
-            </li>
-            <li className="hover:underline me-4 md:me-6">
               <Link href="/lien-he">Liên hệ</Link>
             </li>
           </ul>

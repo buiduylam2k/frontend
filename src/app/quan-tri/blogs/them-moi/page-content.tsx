@@ -35,11 +35,12 @@ import { useGetTagByTypeService } from "@/services/api/services/tag"
 import { TagEnum } from "@/services/api/types/tags"
 import { useQuery } from "@tanstack/react-query"
 import getTagTypeName from "@/services/helpers/get-tag-type-name"
+import { siteConfig } from "@/conf/site"
 
 const FormSchema = z.object({
-  title: z.string().min(10, "Tiêu đề phải tối thiểu 10 ký tự!"),
-  content: z.string().min(6, "Nội dung phải tối thiểu 6 ký tự!"),
-  banner: z.string().min(1, "Hình ảnh không được để trống!"),
+  title: z.string().min(1, "Tiêu đề không được để trống!"),
+  content: z.string(),
+  banner: z.string(),
   tag: z.string(),
 })
 
@@ -48,7 +49,7 @@ type TFormSchema = z.infer<typeof FormSchema>
 const defaultValues: TFormSchema = {
   title: "",
   content: "",
-  banner: "",
+  banner: siteConfig.ogImage,
   tag: TagEnum.Class,
 }
 
@@ -95,14 +96,13 @@ function CreateBlog() {
   const { handleSubmit } = form
 
   const onSubmit = async (formData: TFormSchema) => {
-    if (!file) {
-      return
-    }
     const cloneFormData = { ...formData }
-    const { status: statusUpload, data: dataUpload } =
-      await fetchFileUpload(file)
-    if (statusUpload === HTTP_CODES_ENUM.CREATED) {
-      cloneFormData.banner = dataUpload.file.path
+    if (file) {
+      const { status: statusUpload, data: dataUpload } =
+        await fetchFileUpload(file)
+      if (statusUpload === HTTP_CODES_ENUM.CREATED) {
+        cloneFormData.banner = dataUpload.file.path
+      }
     }
 
     const { status } = await fetchCreateBlog(cloneFormData)
@@ -209,7 +209,6 @@ function CreateBlog() {
                     placeholder={"Hình ảnh blog"}
                     type="file"
                     accept=".png"
-                    {...field}
                     onChange={(e) => {
                       setFile(e.target.files?.[0])
                       field.onChange(e)

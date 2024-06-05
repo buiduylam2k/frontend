@@ -39,10 +39,11 @@ import getTagTypeName from "@/services/helpers/get-tag-type-name"
 import { useQuery } from "@tanstack/react-query"
 import { useGetTagByTypeService } from "@/services/api/services/tag"
 import { Blog } from "@/services/api/types/blog"
+import { siteConfig } from "@/conf/site"
 
 const FormSchema = z.object({
-  title: z.string().min(10, "Tiêu đề phải tối thiểu 10 ký tự!"),
-  content: z.string().min(6, "Nội dung phải tối thiểu 6 ký tự!"),
+  title: z.string().min(1, "Tiêu đề không được để trống!"),
+  content: z.string().min(1, "Nội dung phải không được để trống!"),
   banner: z.optional(z.string()),
   tag: z.string().min(1, "Thẻ không được để trống"),
 })
@@ -52,7 +53,7 @@ type TFormSchema = z.infer<typeof FormSchema>
 const defaultValues: TFormSchema = {
   title: "",
   content: "",
-  banner: "",
+  banner: siteConfig.ogImage,
   tag: "",
 }
 
@@ -148,7 +149,7 @@ function EditBlog() {
         setType(data.tag.type)
         setTimeout(() => {
           setValue("tag", data.tag.id.toString())
-        }, 100)
+        }, 200)
         setCacheBlog(data)
       }
     })
@@ -209,6 +210,7 @@ function EditBlog() {
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -242,7 +244,6 @@ function EditBlog() {
                     placeholder={"Hình ảnh blog"}
                     type="file"
                     accept=".png"
-                    {...field}
                     onChange={(e) => {
                       setFile(e.target.files?.[0])
                       field.onChange(e)

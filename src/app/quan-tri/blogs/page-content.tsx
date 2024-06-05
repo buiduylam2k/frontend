@@ -152,23 +152,6 @@ function Blogs() {
       },
     },
     {
-      accessorKey: "views",
-      cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("views")} lượt xem</div>
-      ),
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Lượt xem
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
-    },
-    {
       accessorKey: "author",
       header: "Người tạo",
       cell: ({ row }) => (

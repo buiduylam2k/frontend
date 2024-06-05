@@ -28,12 +28,13 @@ import {
   usePatchPostService,
 } from "@/services/api/services/post"
 import { Post } from "@/services/api/types/post"
+import { siteConfig } from "@/conf/site"
 
 const FormSchema = z.object({
-  title: z.string().min(10, "Tiêu đề phải tối thiểu 10 ký tự!"),
-  content: z.string().min(6, "Nội dung phải tối thiểu 6 ký tự!"),
-  banner: z.string().min(1, "Hình ảnh không được để trống!"),
-  answer: z.string().min(6, "Nội dung phải tối thiểu 6 ký tự!"),
+  title: z.string().min(1, "Tiêu đề không được để trống!"),
+  content: z.string().min(1, "Nội dung không được để trống!"),
+  banner: z.string(),
+  answer: z.string().min(1, "Nội dung không được để trống!"),
 })
 
 type TFormSchema = z.infer<typeof FormSchema>
@@ -41,7 +42,7 @@ type TFormSchema = z.infer<typeof FormSchema>
 const defaultValues: TFormSchema = {
   title: "",
   content: "",
-  banner: "https://cossin.vn/api/v1/files/logo.png",
+  banner: siteConfig.ogImage,
   answer: "",
 }
 

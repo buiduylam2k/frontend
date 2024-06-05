@@ -1,27 +1,17 @@
 "use client"
 
-// import CommentItem from "@/components/comments/comment-item"
-// import CommentForm from "@/components/comments/form"
 import CommonTemplate from "@/components/common-template"
 import Link from "@/components/link"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import UserHoverCard from "@/components/user-hover-card"
-import {
-  // useDeleteCommentPostService,
-  useGetPostService,
-} from "@/services/api/services/post"
+import { useGetPostService } from "@/services/api/services/post"
 import HTTP_CODES_ENUM from "@/services/api/types/http-codes"
 import { useQuery } from "@tanstack/react-query"
 import { postsQueryKeys } from "../queries/posts-queries"
 import formatDateRelativeToNow from "@/services/helpers/format-date-relative-to-now"
 import useAuth from "@/services/auth/use-auth"
 import EdiableJs from "@/components/editable-js"
-// import {
-//   Accordion,
-//   AccordionContent,
-//   AccordionItem,
-//   AccordionTrigger,
-// } from "@/components/ui/accordion"
+
 import { RoleEnum } from "@/services/api/types/role"
 import { useEffect, useState } from "react"
 import { getUserFullname } from "@/services/helpers/get-user-fullname"
@@ -37,7 +27,6 @@ type Props = {
 export default function PostDetail({ params }: Props) {
   const { slug } = params
   const fetchGetPost = useGetPostService()
-  // const deleteComment = useDeleteCommentPostService()
   const { user } = useAuth()
   const [showAnswer, setShowAnser] = useState(false)
   const fetchCreateMetric = useCreateMetricService()
@@ -63,16 +52,6 @@ export default function PostDetail({ params }: Props) {
   const author = data?.author
   const fullName = getUserFullname(user)
   const commentLen = data?.comments?.length ?? 0
-
-  // const handleDeleteComment = async (cmtId: string | number) => {
-  //   if (data?.id) {
-  //     await deleteComment({
-  //       cmtId,
-  //       id: data.id,
-  //     })
-  //     refetch()
-  //   }
-  // }
 
   const isAdmin = user?.role?.id === RoleEnum.ADMIN
 
@@ -129,30 +108,6 @@ export default function PostDetail({ params }: Props) {
           )}
 
           <div>
-            {/* {data?.id && isAdmin && (
-              <CommentForm refresh={refetch} slug={data.slug} />
-            )} */}
-
-            {/* {!!data?.comments?.length && (
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger>Giải đáp</AccordionTrigger>
-                  <AccordionContent>
-                    {data?.comments.map((item) => (
-                      <CommentItem
-                        key={item.id}
-                        isHaveActions={
-                          !!user && user?.role?.id === RoleEnum.ADMIN
-                        }
-                        onDelete={() => handleDeleteComment(item.id)}
-                        {...item}
-                      />
-                    ))}
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            )} */}
-
             <Button onClick={() => setShowAnser(!showAnswer)} className="mt-5">
               Xem hướng dẫn giải
             </Button>
